@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <!-- Fleeting pawns have an extremely short lifespan, learn 15 times faster and breed like rabbits-->
+    <GeneDef>
+        <defName>Fleeting</defName>
+        <label>fleeting</label>
+        <description>Carriers of this gene have an extremely fast and efficient metabolism and cognitive functions at cost of an extremely short lifespan.</description>
+        <iconPath>UI/Icons/Genes/Gene_Fleeting</iconPath>
+        <exclusionTags>
+            <li>Turn_Exclusion_Deathless</li>
+            <li>Turn_Exclusion_Ageless</li>
+            <!-- More Genes Compatibility -->
+            <li>YouthAging</li>
+            <li>AdultAging</li>
+        </exclusionTags>
+        <displayCategory>Miscellaneous</displayCategory>
+        <displayOrderInCategory>135</displayOrderInCategory>
+        <biostatMet>6</biostatMet>
+
+        <biologicalAgeTickFactorFromAgeCurve>
+        <points>
+            <li>(0, 40)</li>
+            <li>(100, 40)</li>
+        </points>
+        </biologicalAgeTickFactorFromAgeCurve>
+
+        <statFactors>
+            <GlobalLearningFactor>0.066</GlobalLearningFactor>
+            <Fertility>5</Fertility>
+            <gestationPeriodDays>5</gestationPeriodDays>
+        </statFactors>
+
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>short</symbol></li>
+                <li><symbol>rabbit</symbol></li>
+            </prefixSymbols>
+        </symbolPack>
+    </GeneDef>
+</Defs>

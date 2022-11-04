@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <AbilityDef>
+        <defName>HemogenSpray</defName>
+        <label>hemogen spray</label>
+        <description>Empty hemogen glands in order to spray burning-hot hemogen at your enemies. Burning hemogen sticks to whoever it hits, temporarily blinding and slowing them down.</description>
+        <iconPath>UI/Abilities/HemogenCloud</iconPath>
+        <prerequisite>Hemogenic</prerequisite>
+        <displayCategory>Hemogen</displayCategory>
+        <cooldownTicksRange>60</cooldownTicksRange>
+        <aiCanUse>true</aiCanUse>
+        <displayOrder>201</displayOrder>
+        <category>Sanguophage</category>
+        <warmupStartSound>FoamSpray_Warmup</warmupStartSound>
+        <verbProperties>
+        <verbClass>Verb_CastAbility</verbClass>
+        <range>4.9</range>
+        <warmupTime>0.5</warmupTime>
+        <soundCast>FoamSpray_Resolve</soundCast>
+        <targetParams>
+            <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        </verbProperties>
+        <comps>
+            <li Class="CompProperties_AbilityHemogenCost">
+                <hemogenCost>0.1</hemogenCost>
+            </li>
+            <li Class="CompProperties_AbilitySprayLiquid">
+                <projectileDef>Proj_HemoSpray</projectileDef>
+                <numCellsToHit>5</numCellsToHit>
+                <sprayEffecter>HepoSpray_Directional</sprayEffecter>
+            </li>
+        </comps>
+    </AbilityDef>
+
+    <ThingDef>
+        <defName>Proj_HemoSpray</defName>
+        <label>burning hemogen</label>
+        <thingClass>Projectile_Liquid</thingClass>
+        <category>Projectile</category>
+        <tickerType>Normal</tickerType>
+        <altitudeLayer>Projectile</altitudeLayer>
+        <useHitPoints>False</useHitPoints>
+        <neverMultiSelect>True</neverMultiSelect>
+        <graphicData>
+        <texPath>Things/Projectile/Acid</texPath>
+        <graphicClass>Graphic_Random</graphicClass>
+        <shaderType>MoteGlow</shaderType>
+        <drawSize>0.85</drawSize>
+        </graphicData>
+        <projectile>
+        <damageDef>AcidBurn</damageDef>
+        <speed>25</speed>
+        <damageAmountBase>30</damageAmountBase>
+        <arcHeightFactor>0.4</arcHeightFactor>
+        <armorPenetrationBase>0.8</armorPenetrationBase>
+        <stoppingPower>1</stoppingPower>
+        <shadowSize>0</shadowSize>
+        <filth>Filth_SpentAcid</filth>
+        <filthCount>1</filthCount>
+        </projectile>
+    </ThingDef>
+</Defs>
