@@ -8,7 +8,7 @@
         <displayCategory>Ability</displayCategory>
         <marketValueFactor>1.5</marketValueFactor>
         <abilities>
-            <li>HemogenCloud</li>
+            <li>HemogenSpray</li>
         </abilities>
         <descriptionHyperlinks>
             <AbilityDef>HemogenSpray</AbilityDef>
