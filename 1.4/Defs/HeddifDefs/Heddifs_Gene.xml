@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>   
+    <HediffDef>
+        <defName>AG_AcidBlood</defName>
+		<defaultLabelColor>(0.40, 0.65, 0.15)</defaultLabelColor>
+        <label>acidic blood</label>
+        <labelNoun>acidic blood</labelNoun>
+        <description>Owner's blood contains large volumes of nitric acid. Melee attackers will be sprayed by acid upon hitting the owner, and owner's gear will be destroyed upon their death.</description>
+        <descriptionHyperlinks>
+            <GeneDef>AG_AcidBlood</GeneDef>
+        </descriptionHyperlinks>
+        <initialSeverity>1</initialSeverity>
+        <hediffClass>HediffWithComps</hediffClass>
+        <comps>
+            <li Class="HediffCompProperties_DissolveGearOnDeath">
+                <fleck>AcidCloud</fleck>
+                <moteCount>6</moteCount>
+                <moteOffsetRange>0.25~0.75</moteOffsetRange>
+                <filth>Filth_AcidBlood</filth>
+                <sound>DeathAcidifier</sound>
+                <injuryCreatedOnDeath>ChemicalBurn</injuryCreatedOnDeath>
+                <injuryCount>3~6</injuryCount>
+            </li>
+            <li Class="VFECore.HediffCompProperties_CustomBlood">
+                <customBloodThingDef>Filth_AcidBlood</customBloodThingDef>
+                <customBloodIcon>UI/Icons/Medical/GreenBlood_BleedingIcon</customBloodIcon>
+                <customBloodEffect>Damage_HitAcidFlesh</customBloodEffect>
+            </li>
+        </comps>
+    </HediffDef>
+</Defs>

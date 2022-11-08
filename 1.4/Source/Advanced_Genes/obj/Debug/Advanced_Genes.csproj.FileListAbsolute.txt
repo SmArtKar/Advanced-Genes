@@ -1,0 +1,5 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Advanced_Genes\1.4\Assemblies\Advanced_Genes.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Advanced_Genes\1.4\Source\Advanced_Genes\obj\Debug\Advanced_Genes.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Advanced_Genes\1.4\Source\Advanced_Genes\obj\Debug\Advanced_Genes.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Advanced_Genes\1.4\Source\Advanced_Genes\obj\Debug\Advanced_Genes.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Advanced_Genes\1.4\Source\Advanced_Genes\obj\Debug\Advanced_Genes.csproj.CopyComplete

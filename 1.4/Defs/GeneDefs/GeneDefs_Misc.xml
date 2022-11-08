@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <GeneDef>
+        <defName>AG_AcidBlood</defName>
+        <label>acidic blood</label>
+        <description>Carriers of this gene have large volumes of nitric acid circulating in their body through their veins, making any injury result in acid spraying on the attacker. Sadly, the same applies to the carrier's gear.</description>
+        <iconPath>UI/Icons/Genes/Gene_AcidicBlood</iconPath>
+        <displayCategory>Miscellaneous</displayCategory>
+        <displayOrderInCategory>140</displayOrderInCategory>
+        <geneClass>VanillaGenesExpanded.Gene_AddsHediff</geneClass>
+        <biostatMet>-2</biostatMet>
+		<biostatCpx>1</biostatCpx>
+        <customEffectDescriptions>
+            <li>Whenever the carrier is attacked in melee, the attacker will get burned by acid.</li>
+            <li>Upon carrier's death their gear will be destroyed by acid.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>aci</symbol></li>
+                <li><symbol>acid</symbol></li>
+                <li><symbol>blood</symbol></li>
+                <li><symbol>ripley</symbol></li>
+                <li><symbol>xeno</symbol></li>
+            </prefixSymbols>
+            <suffixSymbols>
+                <li><symbol>aci</symbol></li>
+                <li><symbol>acid</symbol></li>
+                <li><symbol>blood</symbol></li>
+                <li><symbol>morph</symbol></li>
+            </suffixSymbols>
+        </symbolPack>
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>AG_AcidBlood</hediffToWholeBody>
+			</li>
+		</modExtensions>
+    </GeneDef>
+</Defs>

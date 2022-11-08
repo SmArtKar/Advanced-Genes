@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Patch>
-    <Operation Class="PatchOperationReplace">
-        <xpath>Defs/GeneDef[defName="WoundHealing_SuperFast"]/biostatMet</xpath>
-        <value>
-            <biostatMet>-4</biostatMet>
-        </value>
-    </Operation>
 
     <Operation Class="PatchOperationReplace">
         <xpath>Defs/GeneDef[defName="Superclotting"]/biostatMet</xpath>
@@ -15,19 +9,7 @@
         </value>
     </Operation>
 
-    <Operation Class="PatchOperationReplace">
-        <xpath>Defs/GeneDef[defName="PsychicAbility_Dull"]/biostatMet</xpath>
-        <value>
-            <biostatMet>-1</biostatMet>
-        </value>
-    </Operation>
-
-    <Operation Class="PatchOperationReplace">
-        <xpath>Defs/GeneDef[defName="PsychicAbility_Deaf"]/biostatMet</xpath>
-        <value>
-            <biostatMet>-2</biostatMet>
-        </value>
-    </Operation>
+    <!--
 
     <Operation Class="PatchOperationReplace">
         <xpath>Defs/GeneDef[defName="Aggression_DeadCalm"]/biostatMet</xpath>
@@ -48,9 +30,11 @@
         </value>
     </Operation>
     
+    -->
+    
     <!-- Ageless exclusion -->
     <Operation Class="PatchOperationConditional">
-        <xpath>Defs/GeneDef[defName="Ageless]/exclusionTags</xpath>
+        <xpath>Defs/GeneDef[defName="Ageless"]/exclusionTags</xpath>
         <nomatch Class="PatchOperationAdd">
             <xpath>Defs/GeneDef[defName="Ageless"]</xpath>
             <value>
@@ -70,7 +54,7 @@
 
     <!-- Deathless exclusion -->
     <Operation Class="PatchOperationConditional">
-        <xpath>Defs/GeneDef[defName="Deathless]/exclusionTags</xpath>
+        <xpath>Defs/GeneDef[defName="Deathless"]/exclusionTags</xpath>
         <nomatch Class="PatchOperationAdd">
             <xpath>Defs/GeneDef[defName="Deathless"]</xpath>
             <value>
@@ -86,6 +70,72 @@
                 <li>Turn_Exclusion_Deathless</li>
             </value>
         </match>
+    </Operation>
+
+    <!-- Ageless exclusion -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/GeneDef[defName="Superclotting"]/exclusionTags</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/GeneDef[defName="Superclotting"]</xpath>
+            <value>
+                <exclusionTags>
+                    <li>Turn_Exclusion_Clotting</li>
+                </exclusionTags>
+            </value>
+        </nomatch>
+
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/GeneDef[defName="Superclotting"]/exclusionTags</xpath>
+            <value>
+                <li>Turn_Exclusion_Clotting</li>
+            </value>
+        </match>
+    </Operation>
+
+    <!--
+
+    <Operation Class="PatchOperationAdd">
+        <xpath>Defs/XenotypeDef[defName="Genie"]/genes</xpath>
+        <value>
+            <li>AG_BloodDeficiency</li>
+        </value>
+    </Operation>
+
+    -->
+
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/GeneDef[defName="Resurrect"]</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs</xpath>
+            <value>
+                <GeneDef>
+                    <defName>Resurrect</defName>
+                    <label>resurrect</label>
+                    <description>Carriers have a reserve of unique resurrector archites which can infuse a corpse, rebuild degenerated tissue and kickstart the vital processes. This brings the dead back to life - though possibly with health issues. This can only be done very rarely, and comes at a steep hemogen cost.</description>
+                    <iconPath>UI/Icons/Genes/Gene_Resurrect</iconPath>
+                    <prerequisite>Hemogenic</prerequisite>
+                    <displayCategory>Archite</displayCategory>
+                    <marketValueFactor>1.5</marketValueFactor>
+                    <abilities>
+                        <li>Resurrect</li>
+                    </abilities>
+                    <descriptionHyperlinks>
+                        <AbilityDef>Resurrect</AbilityDef>
+                    </descriptionHyperlinks>
+                    <biostatCpx>4</biostatCpx>
+                    <biostatArc>1</biostatArc>
+                    <minAgeActive>3</minAgeActive>
+                    <symbolPack>
+                    <wholeNameSymbols>
+                        <li><symbol>resurrector</symbol></li>
+                    </wholeNameSymbols>
+                    <prefixSymbols>
+                        <li><symbol>life</symbol></li>
+                    </prefixSymbols>
+                    </symbolPack>
+                </GeneDef>
+            </value>
+        </nomatch>
     </Operation>
 
 </Patch>

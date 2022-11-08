@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-    <!-- Fleeting pawns have an extremely short lifespan, learn 15 times faster and breed like rabbits-->
+    <!-- Fleeting pawns have an extremely short lifespan, learn 10 times faster and breed like rabbits-->
     <GeneDef>
-        <defName>Fleeting</defName>
+        <defName>AG_Fleeting</defName>
         <label>fleeting</label>
         <description>Carriers of this gene have an extremely fast and efficient metabolism and cognitive functions at cost of an extremely short lifespan.</description>
         <iconPath>UI/Icons/Genes/Gene_Fleeting</iconPath>
@@ -14,20 +14,22 @@
             <li>AdultAging</li>
         </exclusionTags>
         <displayCategory>Miscellaneous</displayCategory>
-        <displayOrderInCategory>135</displayOrderInCategory>
-        <biostatMet>6</biostatMet>
+        <displayOrderInCategory>65</displayOrderInCategory>
+        <biostatMet>5</biostatMet>
+		<biostatCpx>1</biostatCpx>
 
         <biologicalAgeTickFactorFromAgeCurve>
-        <points>
-            <li>(0, 40)</li>
-            <li>(100, 40)</li>
-        </points>
+            <points>
+                <li>(0, 30)</li>
+                <li>(13, 30)</li>
+                <li>(18, 30)</li>
+                <li>(100, 30)</li>
+            </points>
         </biologicalAgeTickFactorFromAgeCurve>
 
         <statFactors>
-            <GlobalLearningFactor>0.066</GlobalLearningFactor>
+            <GlobalLearningFactor>0.1</GlobalLearningFactor>
             <Fertility>5</Fertility>
-            <gestationPeriodDays>5</gestationPeriodDays>
         </statFactors>
 
         <symbolPack>
@@ -37,4 +39,64 @@
             </prefixSymbols>
         </symbolPack>
     </GeneDef>
+
+    <GeneDef>
+        <defName>AG_BloodDeficiency</defName>
+        <label>blood deficiency</label>
+        <description>Carriers of this gene have iron deficiency and are unable to restore their blood as fast as a normal baseliner.</description>
+        <iconPath>UI/Icons/Genes/Gene_BloodDeficiency</iconPath>
+        <exclusionTags>
+            <li>Turn_Exclusion_Clotting</li>
+            <li>Turn_Exclusion_BloodRegen</li>
+        </exclusionTags>
+        <geneClass>Advanced_Genes.Gene_BloodDeficiency</geneClass>
+        <displayCategory>Healing</displayCategory>
+        <displayOrderInCategory>120</displayOrderInCategory>
+        <biostatMet>2</biostatMet>
+		<biostatCpx>1</biostatCpx>
+        <customEffectDescriptions>
+            <li>Carriers recover from blood loss three times slower.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>bleed</symbol></li>
+                <li><symbol>leak</symbol></li>
+                <li><symbol>pale</symbol></li>
+            </prefixSymbols>
+            <suffixSymbols>
+                <li><symbol>bleed</symbol></li>
+                <li><symbol>leak</symbol></li>
+                <li><symbol>pale</symbol></li>
+            </suffixSymbols>
+        </symbolPack>
+    </GeneDef>
+
+    <GeneDef>
+        <defName>AG_BloodRegen</defName>
+        <label>blood regeneration</label>
+        <description>Carriers of this gene are able to rapidly regenerate their blood in case of a bleeding.</description>
+        <iconPath>UI/Icons/Genes/Gene_BloodRegen</iconPath>
+        <exclusionTags>
+            <li>Turn_Exclusion_BloodRegen</li>
+        </exclusionTags>
+        <geneClass>Advanced_Genes.Gene_BloodRegen</geneClass>
+        <displayCategory>Healing</displayCategory>
+        <displayOrderInCategory>125</displayOrderInCategory>
+        <biostatMet>-2</biostatMet>
+		<biostatCpx>1</biostatCpx>
+        <customEffectDescriptions>
+            <li>Carriers recover from blood loss as twice as fast.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>tough</symbol></li>
+                <li><symbol>blood</symbol></li>
+            </prefixSymbols>
+            <suffixSymbols>
+                <li><symbol>tough</symbol></li>
+                <li><symbol>blood</symbol></li>
+            </suffixSymbols>
+        </symbolPack>
+    </GeneDef>
+
 </Defs>
