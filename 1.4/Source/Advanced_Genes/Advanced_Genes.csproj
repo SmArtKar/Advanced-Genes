@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -31,13 +32,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3542">
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp">
+    <Reference Include="Assembly-CSharp, Version=1.4.8347.18814, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="HarmonyMod">
       <HintPath>..\..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\HarmonyMod.dll</HintPath>
@@ -60,12 +67,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HediffComp_AttackDetector.cs" />
-    <Compile Include="Gene_BloodRegen.cs" />
-    <Compile Include="Gene_BloodDeficiency.cs" />
-    <Compile Include="HarmonyPatches.cs" />
-    <Compile Include="Hediff_AcidBlood.cs" />
+    <Compile Include="AG_DefOf.cs" />
+    <Compile Include="DeathGuidance_Skillbase.cs" />
+    <Compile Include="HarmonyPatches\OptionalPatches.cs" />
+    <Compile Include="Hediffs\Hediff_EncryptedDNA.cs" />
+    <Compile Include="Hediffs\Hediff_GeneChangeBlocker.cs" />
+    <Compile Include="Hediffs\HediffComp_AttackDetector.cs" />
+    <Compile Include="Genes\Gene_BloodRegen.cs" />
+    <Compile Include="Genes\Gene_BloodDeficiency.cs" />
+    <Compile Include="HarmonyPatches\HarmonyPatches.cs" />
+    <Compile Include="Hediffs\Hediff_AcidBlood.cs" />
+    <Compile Include="Hediffs\Hediff_BurningBlood.cs" />
+    <Compile Include="Hediffs\Hediff_DeathGuidance.cs" />
+    <Compile Include="Hediffs\Hediff_UnstableDNA.cs" />
+    <Compile Include="ModSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatParts\StatPart_DeathGuidanceLearningFactor.cs" />
+    <Compile Include="StatParts\StatPart_DeathGuidanceMentalBreak.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

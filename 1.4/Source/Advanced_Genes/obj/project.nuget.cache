@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "1XE+NkLWl33r/cDj/A8yu4ovDZnxP3XPkXGmjfdeTa2hGOwROzi9gt5p871wi8oJR3KF+o7EzR0TB0kilZmn7w==",
+  "success": true,
+  "projectFilePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\Advanced_Genes\\1.4\\Source\\Advanced_Genes\\Advanced_Genes.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Artemy\\.nuget\\packages\\krafs.rimworld.ref\\1.4.3542\\krafs.rimworld.ref.1.4.3542.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Patch>
-
-    <Operation Class="PatchOperationReplace">
-        <xpath>Defs/GeneDef[defName="Superclotting"]/biostatMet</xpath>
-        <value>
-            <biostatMet>-3</biostatMet>
-        </value>
-    </Operation>
-
-    <!--
-
-    <Operation Class="PatchOperationReplace">
-        <xpath>Defs/GeneDef[defName="Aggression_DeadCalm"]/biostatMet</xpath>
-        <value>
-            <biostatMet>-3</biostatMet>
-        </value>
-    </Operation>
-    
-    <Operation Class="PatchOperationAdd">
-        <xpath>Defs/GeneDef[defName="Aggression_DeadCalm"]</xpath>
-        <value>
-            <forcedTraits>
-                <li>
-                    <def>Nerves</def>
-                    <degree>2</degree>
-                </li>
-            </forcedTraits>
-        </value>
-    </Operation>
-    
-    -->
     
     <!-- Ageless exclusion -->
     <Operation Class="PatchOperationConditional">
@@ -39,7 +9,7 @@
             <xpath>Defs/GeneDef[defName="Ageless"]</xpath>
             <value>
                 <exclusionTags>
-                    <li>Turn_Exclusion_Ageless</li>
+                    <li>AG_Exclusion_Ageless</li>
                 </exclusionTags>
             </value>
         </nomatch>
@@ -47,7 +17,7 @@
         <match Class="PatchOperationAdd">
             <xpath>Defs/GeneDef[defName="Ageless"]/exclusionTags</xpath>
             <value>
-                <li>Turn_Exclusion_Ageless</li>
+                <li>AG_Exclusion_Ageless</li>
             </value>
         </match>
     </Operation>
@@ -59,7 +29,7 @@
             <xpath>Defs/GeneDef[defName="Deathless"]</xpath>
             <value>
                 <exclusionTags>
-                    <li>Turn_Exclusion_Deathless</li>
+                    <li>AG_Exclusion_Deathless</li>
                 </exclusionTags>
             </value>
         </nomatch>
@@ -67,19 +37,59 @@
         <match Class="PatchOperationAdd">
             <xpath>Defs/GeneDef[defName="Deathless"]/exclusionTags</xpath>
             <value>
-                <li>Turn_Exclusion_Deathless</li>
+                <li>AG_Exclusion_Deathless</li>
             </value>
         </match>
     </Operation>
 
-    <!-- Ageless exclusion -->
+    <!-- Fire resistance exclusion -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/GeneDef[defName="FireResistant"]/exclusionTags</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/GeneDef[defName="FireResistant"]</xpath>
+            <value>
+                <exclusionTags>
+                    <li>AG_Exclusion_FireResist</li>
+                </exclusionTags>
+            </value>
+        </nomatch>
+
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/GeneDef[defName="FireResistant"]/exclusionTags</xpath>
+            <value>
+                <li>AG_Exclusion_FireResist</li>
+            </value>
+        </match>
+    </Operation>
+
+    <!-- Xenogerm Implanter exclusion -->
+    <Operation Class="PatchOperationConditional">
+        <xpath>Defs/GeneDef[defName="XenogermReimplanter"]/exclusionTags</xpath>
+        <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/GeneDef[defName="XenogermReimplanter"]</xpath>
+            <value>
+                <exclusionTags>
+                    <li>AG_Exclusion_DNAChanger</li>
+                </exclusionTags>
+            </value>
+        </nomatch>
+
+        <match Class="PatchOperationAdd">
+            <xpath>Defs/GeneDef[defName="XenogermReimplanter"]/exclusionTags</xpath>
+            <value>
+                <li>AG_Exclusion_DNAChanger</li>
+            </value>
+        </match>
+    </Operation>
+
+    <!-- Clotting exclusion -->
     <Operation Class="PatchOperationConditional">
         <xpath>Defs/GeneDef[defName="Superclotting"]/exclusionTags</xpath>
         <nomatch Class="PatchOperationAdd">
             <xpath>Defs/GeneDef[defName="Superclotting"]</xpath>
             <value>
                 <exclusionTags>
-                    <li>Turn_Exclusion_Clotting</li>
+                    <li>AG_Exclusion_Clotting</li>
                 </exclusionTags>
             </value>
         </nomatch>
@@ -87,21 +97,12 @@
         <match Class="PatchOperationAdd">
             <xpath>Defs/GeneDef[defName="Superclotting"]/exclusionTags</xpath>
             <value>
-                <li>Turn_Exclusion_Clotting</li>
+                <li>AG_Exclusion_Clotting</li>
             </value>
         </match>
     </Operation>
 
     <!--
-
-    <Operation Class="PatchOperationAdd">
-        <xpath>Defs/XenotypeDef[defName="Genie"]/genes</xpath>
-        <value>
-            <li>AG_BloodDeficiency</li>
-        </value>
-    </Operation>
-
-    -->
 
     <Operation Class="PatchOperationConditional">
         <xpath>Defs/GeneDef[defName="Resurrect"]</xpath>
@@ -136,6 +137,6 @@
                 </GeneDef>
             </value>
         </nomatch>
-    </Operation>
+    </Operation>-->
 
 </Patch>

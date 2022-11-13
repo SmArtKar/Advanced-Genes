@@ -7,9 +7,11 @@
         <iconPath>UI/Icons/Genes/Gene_AcidicBlood</iconPath>
         <displayCategory>Miscellaneous</displayCategory>
         <displayOrderInCategory>140</displayOrderInCategory>
-        <geneClass>VanillaGenesExpanded.Gene_AddsHediff</geneClass>
         <biostatMet>-2</biostatMet>
-		<biostatCpx>1</biostatCpx>
+		<biostatCpx>2</biostatCpx>
+        <exclusionTags>
+            <li>AG_Exclusion_BloodType</li>
+        </exclusionTags>
         <customEffectDescriptions>
             <li>Whenever the carrier is attacked in melee, the attacker will get burned by acid.</li>
             <li>Upon carrier's death their gear will be destroyed by acid.</li>
@@ -31,7 +33,143 @@
         </symbolPack>
 		<modExtensions>
 			<li Class="VanillaGenesExpanded.GeneExtension">
-				<hediffToWholeBody>AG_AcidBlood</hediffToWholeBody>
+				<hediffToWholeBody>Hediff_AcidBlood</hediffToWholeBody>
+			</li>
+		</modExtensions>
+    </GeneDef>
+
+    <GeneDef>
+        <defName>AG_BurningBlood</defName>
+        <label>burning blood</label>
+        <description>Carriers of this gene naturally produce napalm, making every wound able to ignite both the attacker and the carrier.</description>
+        <iconPath>UI/Icons/Genes/Gene_BurningBlood</iconPath>
+        <displayCategory>Miscellaneous</displayCategory>
+        <displayOrderInCategory>141</displayOrderInCategory>
+        <biostatMet>-1</biostatMet>
+		<biostatCpx>2</biostatCpx>
+        <exclusionTags>
+            <li>AG_Exclusion_BloodType</li>
+            <li>AG_Exclusion_FireResist</li>
+        </exclusionTags>
+        <customEffectDescriptions>
+            <li>Whenever the carrier is attacked in melee, the attacker will get burned by acid.</li>
+            <li>Upon carrier's death they will violently erupt in flames, creating a small explosion around them.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>fie</symbol></li>
+                <li><symbol>blood</symbol></li>
+                <li><symbol>napa</symbol></li>
+                <li><symbol>fire</symbol></li>
+                <li><symbol>igni</symbol></li>
+                <li><symbol>fiery</symbol></li>
+            </prefixSymbols>
+            <suffixSymbols>
+                <li><symbol>guy</symbol></li>
+                <li><symbol>blood</symbol></li>
+                <li><symbol>fire</symbol></li>
+            </suffixSymbols>
+        </symbolPack>
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_BurningBlood</hediffToWholeBody>
+			</li>
+		</modExtensions>
+    </GeneDef>
+
+    <GeneDef>
+        <defName>AG_DeathGuidance</defName>
+        <label>guidance of the dead</label>
+        <description>Carriers of this gene have a psychically hypersensitive organ in their brain that allows them to absorb knowledge of their dead comrades with the same gene.</description>
+        <iconPath>UI/Icons/Genes/Gene_DeathGuidance</iconPath>
+        <displayCategory>Miscellaneous</displayCategory>
+        <displayOrderInCategory>145</displayOrderInCategory>
+        <biostatMet>-6</biostatMet>
+		<biostatCpx>4</biostatCpx>
+        <exclusionTags>
+            <li>AG_Exclusion_Deathless</li>
+        </exclusionTags>
+        <customEffectDescriptions>
+            <li>When a carrier of this gene dies, all other carriers from the same function will partially recieve their skills.</li>
+            <li>Every mind in the "hive" will slowly destabilize the living, raising their mental break threshold and lowering their learning speed.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>hades</symbol></li>
+                <li><symbol>death</symbol></li>
+                <li><symbol>ripper</symbol></li>
+                <li><symbol>hiver</symbol></li>
+                <li><symbol>devour</symbol></li>
+            </prefixSymbols>
+            <suffixSymbols>
+                <li><symbol>hive</symbol></li>
+                <li><symbol>steal</symbol></li>
+            </suffixSymbols>
+        </symbolPack>
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_DeathGuidance</hediffToWholeBody>
+			</li>
+		</modExtensions>
+    </GeneDef>
+
+    <GeneDef>
+        <defName>AG_EncryptedDNA</defName>
+        <label>encrypted dna</label>
+        <description>Carriers of this gene have an abnormal DNA structure, making gene editing and scanning impossible.</description>
+        <iconPath>UI/Icons/Genes/Gene_EncryptedDNA</iconPath>
+        <displayCategory>Miscellaneous</displayCategory>
+        <displayOrderInCategory>146</displayOrderInCategory>
+        <biostatMet>0</biostatMet>
+		<biostatCpx>1</biostatCpx>
+        <exclusionTags>
+            <li>AG_Exclusion_DNAChanger</li>
+        </exclusionTags>
+        <customEffectDescriptions>
+            <li>Carriers of this gene cannot be genetically modified or scanned.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>encry</symbol></li>
+                <li><symbol>gene</symbol></li>
+            </prefixSymbols>
+            <suffixSymbols>
+                <li><symbol>shield</symbol></li>
+            </suffixSymbols>
+        </symbolPack>
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_EncryptedDNA</hediffToWholeBody>
+			</li>
+		</modExtensions>
+    </GeneDef>
+
+    <GeneDef>
+        <defName>AG_UnstableDNA</defName>
+        <label>unstable dna</label>
+        <description>Carriers of this gene have an extremely unstable, constantly morphing DNA structure.</description>
+        <iconPath>UI/Icons/Genes/Gene_UnstableDNA</iconPath>
+        <displayCategory>Miscellaneous</displayCategory>
+        <displayOrderInCategory>147</displayOrderInCategory>
+        <biostatMet>0</biostatMet>
+		<biostatCpx>1</biostatCpx>
+        <exclusionTags>
+            <li>AG_Exclusion_DNAChanger</li>
+        </exclusionTags>
+        <customEffectDescriptions>
+            <li>Carriers of this gene will randomly lose or acquire 1-3 genes every 3-5 days.</li>
+            <li>Carriers of this gene cannot be genetically modified or scanned.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>broken</symbol></li>
+                <li><symbol>uns</symbol></li>
+                <li><symbol>gene</symbol></li>
+            </prefixSymbols>
+        </symbolPack>
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_UnstableDNA</hediffToWholeBody>
 			</li>
 		</modExtensions>
     </GeneDef>

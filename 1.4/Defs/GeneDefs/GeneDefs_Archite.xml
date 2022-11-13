@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <GeneDef>
+        <defName>AG_PsychicBeacon</defName>
+        <label>psychic beacon</label>
+        <description>Carriers of this gene have an extremely unstable, constantly morphing DNA structure.</description>
+        <iconPath>UI/Icons/Genes/Gene_PsychicBeacon</iconPath>
+        <displayCategory>Archite</displayCategory>
+        <biostatCpx>5</biostatCpx>
+        <biostatArc>1</biostatArc>
+        <exclusionTags>
+            <li>AG_Exclusion_DNAChanger</li>
+        </exclusionTags>
+        <customEffectDescriptions>
+            <li>Carriers of this gene will randomly lose or acquire 1-3 genes every 3-5 days.</li>
+            <li>Carriers of this gene cannot be genetically modified or scanned.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>broken</symbol></li>
+                <li><symbol>uns</symbol></li>
+                <li><symbol>gene</symbol></li>
+            </prefixSymbols>
+        </symbolPack>
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_UnstableDNA</hediffToWholeBody>
+			</li>
+		</modExtensions>
+    </GeneDef>
+</Defs>

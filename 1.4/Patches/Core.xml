@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationConditional">
+				<xpath>/Defs/StatDef[defName="MentalBreakThreshold"]/parts</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>/Defs/StatDef[defName="MentalBreakThreshold"]</xpath>
+					<value>
+						<parts>
+							<li Class="Advanced_Genes.StatPart_DeathGuidanceMentalBreak"/>
+						</parts>
+					</value>
+				</nomatch>
+				<match Class="PatchOperationAdd">
+					<xpath>/Defs/StatDef[defName="MentalBreakThreshold"]/parts</xpath>
+					<value>
+						<li Class="Advanced_Genes.StatPart_DeathGuidanceMentalBreak"/>
+					</value>
+				</match>
+			</li>
+		</operations>
+	</Operation>
+
+    <Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationConditional">
+				<xpath>/Defs/StatDef[defName="GlobalLearningFactor"]/parts</xpath>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>/Defs/StatDef[defName="GlobalLearningFactor"]</xpath>
+					<value>
+						<parts>
+							<li Class="Advanced_Genes.StatPart_DeathGuidanceLearningFactor"/>
+						</parts>
+					</value>
+				</nomatch>
+				<match Class="PatchOperationAdd">
+					<xpath>/Defs/StatDef[defName="GlobalLearningFactor"]/parts</xpath>
+					<value>
+						<li Class="Advanced_Genes.StatPart_DeathGuidanceLearningFactor"/>
+					</value>
+				</match>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

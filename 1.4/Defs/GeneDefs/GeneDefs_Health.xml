@@ -7,16 +7,16 @@
         <description>Carriers of this gene have an extremely fast and efficient metabolism and cognitive functions at cost of an extremely short lifespan.</description>
         <iconPath>UI/Icons/Genes/Gene_Fleeting</iconPath>
         <exclusionTags>
-            <li>Turn_Exclusion_Deathless</li>
-            <li>Turn_Exclusion_Ageless</li>
+            <li>AG_Exclusion_Deathless</li>
+            <li>AG_Exclusion_Ageless</li>
             <!-- More Genes Compatibility -->
             <li>YouthAging</li>
             <li>AdultAging</li>
         </exclusionTags>
         <displayCategory>Miscellaneous</displayCategory>
         <displayOrderInCategory>65</displayOrderInCategory>
-        <biostatMet>5</biostatMet>
-		<biostatCpx>1</biostatCpx>
+        <biostatMet>2</biostatMet>
+		<biostatCpx>2</biostatCpx>
 
         <biologicalAgeTickFactorFromAgeCurve>
             <points>
@@ -29,7 +29,6 @@
 
         <statFactors>
             <GlobalLearningFactor>0.1</GlobalLearningFactor>
-            <Fertility>5</Fertility>
         </statFactors>
 
         <symbolPack>
@@ -46,8 +45,8 @@
         <description>Carriers of this gene have iron deficiency and are unable to restore their blood as fast as a normal baseliner.</description>
         <iconPath>UI/Icons/Genes/Gene_BloodDeficiency</iconPath>
         <exclusionTags>
-            <li>Turn_Exclusion_Clotting</li>
-            <li>Turn_Exclusion_BloodRegen</li>
+            <li>AG_Exclusion_Clotting</li>
+            <li>AG_Exclusion_BloodRegen</li>
         </exclusionTags>
         <geneClass>Advanced_Genes.Gene_BloodDeficiency</geneClass>
         <displayCategory>Healing</displayCategory>
@@ -77,7 +76,7 @@
         <description>Carriers of this gene are able to rapidly regenerate their blood in case of a bleeding.</description>
         <iconPath>UI/Icons/Genes/Gene_BloodRegen</iconPath>
         <exclusionTags>
-            <li>Turn_Exclusion_BloodRegen</li>
+            <li>AG_Exclusion_BloodRegen</li>
         </exclusionTags>
         <geneClass>Advanced_Genes.Gene_BloodRegen</geneClass>
         <displayCategory>Healing</displayCategory>
