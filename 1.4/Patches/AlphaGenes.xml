@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Alpha Genes</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/GeneDef[defName="AG_AcidBlood"]/exclusionTags</xpath>
+					<value>
+						<li>AG_BloodType</li>
+					</value>
+				</li>
+
+				<li Class="PatchOperationAdd">
+					<xpath>/Defs/GeneDef[defName="AG_BurningBlood"]/exclusionTags</xpath>
+					<value>
+						<li>AG_BloodType</li>
+					</value>
+				</li>
+
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/GeneDef[defName="AG_AcidBlood"]/displayCategory</xpath>
+					<value>
+						<displayCategory>AG_BloodType</displayCategory>
+					</value>
+				</li>
+
+				<li Class="PatchOperationReplace">
+					<xpath>/Defs/GeneDef[defName="AG_BurningBlood"]/displayCategory</xpath>
+					<value>
+						<displayCategory>AG_BloodType</displayCategory>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+</Patch>

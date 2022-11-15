@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Advanced_Genes;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,9 @@ using Verse;
 [DefOf]
 public static class AG_DefOf
 {
-    public static HediffDef Hediff_DeathGuidance;
+    //public static HediffDef Hediff_DeathGuidance;
+    public static HediffDef Hediff_PsychicBeacon;
+    public static ThoughtDef ThoughtPsychicBeacon;
 
     static AG_DefOf()
     {

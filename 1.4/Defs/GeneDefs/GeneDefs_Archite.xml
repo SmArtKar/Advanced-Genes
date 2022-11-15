@@ -3,28 +3,56 @@
     <GeneDef>
         <defName>AG_PsychicBeacon</defName>
         <label>psychic beacon</label>
-        <description>Carriers of this gene have an extremely unstable, constantly morphing DNA structure.</description>
+        <description>Carriers of this gene are extremely psy-sensetive and can affect others' mood when talking to them.</description>
         <iconPath>UI/Icons/Genes/Gene_PsychicBeacon</iconPath>
         <displayCategory>Archite</displayCategory>
-        <biostatCpx>5</biostatCpx>
+        <biostatCpx>6</biostatCpx>
+        <biostatArc>1</biostatArc>
+        <customEffectDescriptions>
+            <li>Carriers of this gene have a 200% psychic sensetivity modifier.</li>
+            <li>Carriers of this gene will affect mood of whoever they're talking to based on their opinion of that person.</li>
+        </customEffectDescriptions>
+        <symbolPack>
+            <prefixSymbols>
+                <li><symbol>psy</symbol></li>
+                <li><symbol>psych</symbol></li>
+                <li><symbol>menta</symbol></li>
+                <li><symbol>mental</symbol></li>
+            </prefixSymbols>
+        </symbolPack>
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_PsychicBeacon</hediffToWholeBody>
+			</li>
+		</modExtensions>
+    </GeneDef>
+
+    <GeneDef>
+        <defName>AG_InfusedUnstableDNA</defName>
+        <label>archite-infused unstable dna</label>
+        <description>Owner's DNA has been infused with destabilized archite particles, making it chaotically mutate every hour.</description>
+        <iconPath>UI/Icons/Genes/Gene_InfusedUnstableDNA</iconPath>
+        <displayCategory>Archite</displayCategory>
+        <biostatMet>0</biostatMet>
+		<biostatCpx>4</biostatCpx>
         <biostatArc>1</biostatArc>
         <exclusionTags>
             <li>AG_Exclusion_DNAChanger</li>
         </exclusionTags>
         <customEffectDescriptions>
-            <li>Carriers of this gene will randomly lose or acquire 1-3 genes every 3-5 days.</li>
+            <li>Carriers of this gene will randomly lose or acquire 1-3 genes every hour.</li>
             <li>Carriers of this gene cannot be genetically modified or scanned.</li>
         </customEffectDescriptions>
         <symbolPack>
             <prefixSymbols>
-                <li><symbol>broken</symbol></li>
+                <li><symbol>infu</symbol></li>
                 <li><symbol>uns</symbol></li>
                 <li><symbol>gene</symbol></li>
             </prefixSymbols>
         </symbolPack>
 		<modExtensions>
 			<li Class="VanillaGenesExpanded.GeneExtension">
-				<hediffToWholeBody>Hediff_UnstableDNA</hediffToWholeBody>
+				<hediffToWholeBody>Hediff_InfusedUnstableDNA</hediffToWholeBody>
 			</li>
 		</modExtensions>
     </GeneDef>

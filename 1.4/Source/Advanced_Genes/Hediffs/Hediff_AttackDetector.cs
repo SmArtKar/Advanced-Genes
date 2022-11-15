@@ -8,7 +8,7 @@ using Verse;
 
 namespace Advanced_Genes
 {
-    internal class Hediff_AttackDetector : HediffWithComps
+    public class Hediff_AttackDetector : HediffWithComps
     {
         public virtual void PostApplyDamage(ref DamageInfo dinfo, ref float totalDamageDealt) { }
     }

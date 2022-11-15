@@ -8,8 +8,8 @@ using Verse;
 
 namespace Advanced_Genes
 {
-    public class Hediff_InteractionTracker
+    public class Hediff_InteractionTracker : HediffWithComps
     {
-        public void trackInteraction(ref Pawn recipient, ref InteractionDef intDef) { }
+        public virtual void trackInteraction(Pawn recipient, InteractionDef intDef) { }
     }
 }

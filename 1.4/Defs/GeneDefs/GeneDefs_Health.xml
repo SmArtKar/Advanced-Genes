@@ -54,7 +54,7 @@
         <biostatMet>2</biostatMet>
 		<biostatCpx>1</biostatCpx>
         <customEffectDescriptions>
-            <li>Carriers recover from blood loss three times slower.</li>
+            <li>Carriers recover from blood loss 3 times slower and bleed out 25% faster.</li>
         </customEffectDescriptions>
         <symbolPack>
             <prefixSymbols>
@@ -68,6 +68,12 @@
                 <li><symbol>pale</symbol></li>
             </suffixSymbols>
         </symbolPack>
+
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_BloodDeficiency</hediffToWholeBody>
+			</li>
+		</modExtensions>
     </GeneDef>
 
     <GeneDef>
@@ -84,7 +90,7 @@
         <biostatMet>-2</biostatMet>
 		<biostatCpx>1</biostatCpx>
         <customEffectDescriptions>
-            <li>Carriers recover from blood loss as twice as fast.</li>
+            <li>Carriers recover from blood loss as twice as fast and bleed 25% slower.</li>
         </customEffectDescriptions>
         <symbolPack>
             <prefixSymbols>
@@ -96,6 +102,12 @@
                 <li><symbol>blood</symbol></li>
             </suffixSymbols>
         </symbolPack>
+        
+		<modExtensions>
+			<li Class="VanillaGenesExpanded.GeneExtension">
+				<hediffToWholeBody>Hediff_BloodRegen</hediffToWholeBody>
+			</li>
+		</modExtensions>
     </GeneDef>
 
 </Defs>

@@ -10,31 +10,12 @@ using System.Collections;
 
 namespace Advanced_Genes
 {
-    public class GameComponent_DeathGuidance_Skillbase : GameComponent
-    {
-        public Dictionary<Faction, DeathGuidance_Dataset> datasets = new Dictionary<Faction, DeathGuidance_Dataset>();
-        public List<Faction> factionPlaceholder;
-        public List<DeathGuidance_Dataset> datasetPlaceholder;
-
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Collections.Look(ref datasets, "deathGuidanceDatasets", LookMode.Reference, LookMode.Deep, ref factionPlaceholder, ref datasetPlaceholder);
-        }
-
-        public GameComponent_DeathGuidance_Skillbase(Game game)
-        {
-        }
-
-    }
-
-    public class DeathGuidance_Dataset : IExposable
+    public class Hivemind_DeathGuidance : Hivemind
     {
         public Dictionary<SkillDef, float> skillValues = new Dictionary<SkillDef, float>();
-        public List<Pawn> attachedPawns = new List<Pawn>();
         public int totalDead = 0;
 
-        public DeathGuidance_Dataset()
+        public Hivemind_DeathGuidance()
         {
             foreach (var skillDef in DefDatabase<SkillDef>.AllDefs)
             {
@@ -42,22 +23,20 @@ namespace Advanced_Genes
             }
         }
 
-        public void ExposeData()
+        public override void ExposeData()
         {
+            base.ExposeData();
             Scribe_Values.Look(ref totalDead, "totalDead");
-            Scribe_Collections.Look(ref attachedPawns, "attachedPawns", LookMode.Reference);
             Scribe_Collections.Look(ref skillValues, "skillValues", LookMode.Def, LookMode.Value);
         }
 
         public void absorbCorpse(Pawn corpse)
         {
-            HediffSet hediffSet = corpse.health.hediffSet;
-            var guidanceHediff = hediffSet.GetFirstHediffOfDef(AG_DefOf.Hediff_DeathGuidance, false) as Hediff_DeathGuidance;
             bool wipeSkills = LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().wipeDeathGuidance;
             bool lowerDecay = LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().lowerDecayDeathGuidance;
 
             bool livingPawns = false;
-            foreach (var attached in attachedPawns)
+            foreach (var attached in attachedPawns.Keys.ToList())
             {
                 if (!attached.health.Dead)
                 {
@@ -74,17 +53,11 @@ namespace Advanced_Genes
                 }
 
                 totalDead += 1;
-                foreach (var attached in attachedPawns)
+                foreach (var attached in attachedPawns.Keys.ToList())
                 {
                     updatePawnSkills(attached);
                 }
                 return;
-            }
-
-
-            if (guidanceHediff == null)
-            {
-                return; //not supposed to happen but I'll add a sanity check just in case
             }
 
             foreach (var skillDef in DefDatabase<SkillDef>.AllDefs)
@@ -100,7 +73,8 @@ namespace Advanced_Genes
                     continue;
                 }
 
-                float corpseExpirience = corpseSkill.XpTotalEarned + corpseSkill.xpSinceLastLevel - guidanceHediff.addedExpirience[skillDef];
+                Hediff_DeathGuidance hediff_DeathGuidance = attachedPawns[corpse] as Hediff_DeathGuidance;
+                float corpseExpirience = corpseSkill.XpTotalEarned + corpseSkill.xpSinceLastLevel - hediff_DeathGuidance.addedExpirience[skillDef];
                 if(lowerDecay && skillValues[skillDef] > corpseExpirience)
                 {
                     corpseExpirience = (corpseExpirience * 2 + skillValues[skillDef]) / 3;
@@ -109,9 +83,28 @@ namespace Advanced_Genes
                 skillValues[skillDef] = (skillValues[skillDef] * totalDead + corpseExpirience) / (totalDead + 1);
             }
             totalDead += 1;
-            foreach (var attached in attachedPawns)
+            foreach (var attached in attachedPawns.Keys.ToList())
             {
                 updatePawnSkills(attached);
+            }
+        }
+
+        public override void connectPawn(Pawn pawn, Hediff_Hivemind hediff)
+        {
+            base.connectPawn(pawn, hediff);
+            updatePawnSkills(pawn);
+        }
+
+        public override void disconnectPawn(Pawn pawn, Hediff_Hivemind hediff)
+        {
+            base.disconnectPawn(pawn, hediff);
+            Hediff_DeathGuidance heddifGuidance = hediff as Hediff_DeathGuidance;
+            foreach (var skillDef in DefDatabase<SkillDef>.AllDefs)
+            {
+                SkillRecord pawnSkill = pawn.skills.GetSkill(skillDef);
+                float pawnExpirience = pawnSkill.XpTotalEarned + pawnSkill.xpSinceLastLevel - heddifGuidance.addedExpirience[skillDef];
+                pawnSkill.Level = getSkillLevel(pawnExpirience);
+                pawnSkill.xpSinceLastLevel = getLeftoverXP(pawnExpirience, pawnSkill.Level);
             }
         }
 
@@ -127,18 +120,7 @@ namespace Advanced_Genes
                 return;
             }
 
-            HediffSet hediffSet = attached.health.hediffSet;
-            if (hediffSet == null)
-            {
-                return;
-            }
-
-            var guidanceHediff = hediffSet.GetFirstHediffOfDef(AG_DefOf.Hediff_DeathGuidance, false) as Hediff_DeathGuidance;
-            
-            if(guidanceHediff == null){
-                return;
-            }
-
+            Hediff_DeathGuidance hediff_DeathGuidance = attachedPawns[attached] as Hediff_DeathGuidance;
 
             foreach (var skillDef in DefDatabase<SkillDef>.AllDefs)
             {
@@ -148,48 +130,20 @@ namespace Advanced_Genes
 
                 if (pawnExpirience > hiveExpirience)
                 {
-                    if (guidanceHediff.addedExpirience[skillDef] > hiveExpirience)
+                    if (hediff_DeathGuidance.addedExpirience[skillDef] > hiveExpirience)
                     {
-                        float xpLost = guidanceHediff.addedExpirience[skillDef] - hiveExpirience;
-                        guidanceHediff.addedExpirience[skillDef] = hiveExpirience;
+                        float xpLost = hediff_DeathGuidance.addedExpirience[skillDef] - hiveExpirience;
+                        hediff_DeathGuidance.addedExpirience[skillDef] = hiveExpirience;
                         pawnSkill.Level = getSkillLevel(pawnExpirience - xpLost);
                         pawnSkill.xpSinceLastLevel = getLeftoverXP(pawnExpirience - xpLost, pawnSkill.Level);
                     }
                     continue;
                 }
 
-                guidanceHediff.addedExpirience[skillDef] += hiveExpirience - pawnExpirience;
+                hediff_DeathGuidance.addedExpirience[skillDef] += hiveExpirience - pawnExpirience;
                 pawnSkill.Level = getSkillLevel(hiveExpirience);
                 pawnSkill.xpSinceLastLevel = getLeftoverXP(hiveExpirience, pawnSkill.Level);
             }
-        }
-
-        public int getSkillLevel(float xp)
-        {
-            float xpRequired = 0f;
-            int currentLevel = 0;
-            while (xpRequired <= xp && currentLevel < 20)
-            {
-                xpRequired += SkillRecord.XpRequiredToLevelUpFrom(currentLevel);
-                currentLevel++;
-            }
-
-            if(xpRequired > xp)
-            {
-                currentLevel -= 1;
-                xpRequired -= SkillRecord.XpRequiredToLevelUpFrom(currentLevel);
-            }
-
-            return currentLevel;
-        }
-
-        public float getLeftoverXP(float xp, int level)
-        {
-            for (int i = 0; i < level; i++)
-            {
-                xp -= SkillRecord.XpRequiredToLevelUpFrom(i);
-            }
-            return xp;
         }
     }
 }

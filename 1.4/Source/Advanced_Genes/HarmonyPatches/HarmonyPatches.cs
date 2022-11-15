@@ -26,7 +26,7 @@ namespace Advanced_Genes.HarmonyPatches
         [HarmonyPatch(typeof(Pawn), "PostApplyDamage")]
         public static class AttackDetector_PostApplyDamage
         {
-            static void Postfix(Pawn __instance, ref DamageInfo dinfo, ref float totalDamageDealt)
+            static void Postfix(Pawn __instance, DamageInfo dinfo, ref float totalDamageDealt)
             {
                 foreach (var detector in __instance.health.hediffSet.hediffs.OfType<Hediff_AttackDetector>())
                 {
@@ -38,7 +38,7 @@ namespace Advanced_Genes.HarmonyPatches
         [HarmonyPatch(typeof(Pawn_GeneTracker), "AddGene", new Type[] { typeof(Gene), typeof(bool) })]
         public static class GeneBlocker_AddGene
         {
-            static bool Prefix(Pawn_GeneTracker __instance, ref Gene gene, ref bool addAsXenogene)
+            static bool Prefix(Pawn_GeneTracker __instance, Gene gene, ref bool addAsXenogene)
             {
                 foreach (var geneBlocker in __instance.pawn.health.hediffSet.hediffs.OfType<Hediff_GeneChangeBlocker>())
                 {
@@ -54,7 +54,7 @@ namespace Advanced_Genes.HarmonyPatches
         [HarmonyPatch(typeof(Pawn_GeneTracker), "RemoveGene")]
         public static class GeneBlocker_RemoveGene
         {
-            static bool Prefix(Pawn_GeneTracker __instance, ref Gene gene)
+            static bool Prefix(Pawn_GeneTracker __instance, Gene gene)
             {
                 foreach (var geneBlocker in __instance.pawn.health.hediffSet.hediffs.OfType<Hediff_GeneChangeBlocker>())
                 {
@@ -70,7 +70,7 @@ namespace Advanced_Genes.HarmonyPatches
         [HarmonyPatch(typeof(Building_GeneExtractor), "CanAcceptPawn")]
         public static class GeneBlocker_Scanner
         {
-            static bool Prefix(Pawn_GeneTracker __instance, ref AcceptanceReport __result, ref Pawn pawn)
+            static bool Prefix(Pawn_GeneTracker __instance, ref AcceptanceReport __result, Pawn pawn)
             {
                 foreach (var geneBlocker in pawn.health.hediffSet.hediffs.OfType<Hediff_GeneChangeBlocker>())
                 {
@@ -87,18 +87,22 @@ namespace Advanced_Genes.HarmonyPatches
         [HarmonyPatch(typeof(Pawn_InteractionsTracker), "TryInteractWith")]
         public static class InteractionTracker
         {
-            static bool Postfix(Pawn_InteractionsTracker __instance, ref bool __result, ref Pawn __pawn, ref Pawn recipient, ref InteractionDef intDef)
+            static void Postfix(Pawn_InteractionsTracker __instance, ref bool __result, Pawn ___pawn, Pawn recipient, InteractionDef intDef)
             {
-                foreach (var hediffTracker in __pawn.health.hediffSet.hediffs.OfType<Hediff_InteractionTracker>())
+                if (!__result)
                 {
-                    hediffTracker.trackInteraction(ref recipient, ref intDef);
+                    return;
+                }
+
+                foreach (var hediffTracker in ___pawn.health.hediffSet.hediffs.OfType<Hediff_InteractionTracker>())
+                {
+                    hediffTracker.trackInteraction(recipient, intDef);
                 }
 
                 foreach (var hediffTracker in recipient.health.hediffSet.hediffs.OfType<Hediff_InteractionTracker>())
                 {
-                    hediffTracker.trackInteraction(ref __pawn, ref intDef);
+                    hediffTracker.trackInteraction(___pawn, intDef);
                 }
-                return __result;
             }
         }
     }

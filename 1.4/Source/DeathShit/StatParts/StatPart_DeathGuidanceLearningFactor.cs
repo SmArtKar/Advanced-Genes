@@ -27,13 +27,14 @@ namespace Advanced_Genes
                 if (pawn != null)
                 {
                     var guidanceHediff = pawn.health.hediffSet.GetFirstHediffOfDef(AG_DefOf.Hediff_DeathGuidance, false) as Hediff_DeathGuidance;
-                    if (guidanceHediff == null)
+
+                    if (guidanceHediff == null || guidanceHediff.connectedHivemind == null)
                     {
                         return;
                     }
 
-                    DeathGuidance_Dataset dataset = guidanceHediff.globalSkillbase.datasets[pawn.Faction];
-                    int totalDeadCopy = dataset.totalDead;
+                    Hivemind_DeathGuidance hivemind = guidanceHediff.connectedHivemind as Hivemind_DeathGuidance;
+                    int totalDeadCopy = hivemind.totalDead;
                     float modifier = 1f;
                     while (totalDeadCopy > 0)
                     {
@@ -53,14 +54,14 @@ namespace Advanced_Genes
                 if (pawn != null)
                 {
                     var guidanceHediff = pawn.health.hediffSet.GetFirstHediffOfDef(AG_DefOf.Hediff_DeathGuidance, false) as Hediff_DeathGuidance;
-                    if (guidanceHediff == null)
+                    if (guidanceHediff == null || guidanceHediff.connectedHivemind == null)
                     {
                         return null;
                     }
 
-                    DeathGuidance_Dataset dataset = guidanceHediff.globalSkillbase.datasets[pawn.Faction];
+                    Hivemind_DeathGuidance hivemind = guidanceHediff.connectedHivemind as Hivemind_DeathGuidance;
+                    int totalDeadCopy = hivemind.totalDead;
 
-                    int totalDeadCopy = dataset.totalDead;
                     float modifier = 1f;
                     float skillMod = 0f;
                     string skillListing = "";

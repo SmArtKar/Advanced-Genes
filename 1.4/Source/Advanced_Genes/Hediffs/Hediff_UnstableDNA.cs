@@ -28,7 +28,7 @@ namespace Advanced_Genes
             }
         }
 
-        public void randomizeGenes()
+        public virtual void randomizeGenes()
         {
             geneEdit = true;
             tickInterval = GenDate.TicksPerDay * rand.Next(LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().unstableDNADurationMin, LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().unstableDNADurationMax);
@@ -40,7 +40,7 @@ namespace Advanced_Genes
 
             if (genesLeft > 0 && removableGenes.Count > 0)
             {
-                int geneRemoveNum = random.Next(1, Math.Min(removableGenes.Count + 1, Math.Min((int)((genesLeft) * (geneChange / geneTarget)) + 1, genesLeft)));
+                int geneRemoveNum = random.Next(1, Math.Min(removableGenes.Count + 1, Math.Min((int)((genesLeft) * (((float)geneChange) / ((float)geneTarget))) + 1, genesLeft)));
                 for (int i = 0; i < geneRemoveNum; i++)
                 {
                     GeneDef toRemoveDef = removableGenes.Keys.ToList()[random.Next(removableGenes.Count)];
@@ -53,7 +53,7 @@ namespace Advanced_Genes
             List<GeneDef> appliableGenes = getAppliableGenes();
             if (appliableGenes.Count > 0)
             {
-                int geneApplyNum = random.Next(1, Math.Min(appliableGenes.Count + 1, Math.Max(0, (int)((geneTarget + geneTarget / geneChange - genesLeft) * (geneChange / geneTarget)) + 1)));
+                int geneApplyNum = random.Next(1, Math.Min(appliableGenes.Count + 1, Math.Max(0, (int)((geneTarget + geneTarget / geneChange - genesLeft) * (((float)geneChange) / ((float)geneTarget))) + 1)));
                 for (int i = 0; i < geneApplyNum; i++)
                 {
                     GeneDef toAdd = appliableGenes[random.Next(appliableGenes.Count)];
@@ -124,7 +124,7 @@ namespace Advanced_Genes
 
             foreach (var pawnGene in genes)
             {
-                if (pawnGene.def.defName == "AG_UnstableDNA")
+                if (pawnGene.def.defName == "AG_UnstableDNA" || pawnGene.def.defName == "AG_InfusedUnstableDNA")
                 {
                     continue;
                 }

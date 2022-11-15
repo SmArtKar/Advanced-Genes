@@ -78,42 +78,6 @@
     </GeneDef>
 
     <GeneDef>
-        <defName>AG_DeathGuidance</defName>
-        <label>guidance of the dead</label>
-        <description>Carriers of this gene have a psychically hypersensitive organ in their brain that allows them to absorb knowledge of their dead comrades with the same gene.</description>
-        <iconPath>UI/Icons/Genes/Gene_DeathGuidance</iconPath>
-        <displayCategory>Miscellaneous</displayCategory>
-        <displayOrderInCategory>145</displayOrderInCategory>
-        <biostatMet>-6</biostatMet>
-		<biostatCpx>4</biostatCpx>
-        <exclusionTags>
-            <li>AG_Exclusion_Deathless</li>
-        </exclusionTags>
-        <customEffectDescriptions>
-            <li>When a carrier of this gene dies, all other carriers from the same function will partially recieve their skills.</li>
-            <li>Every mind in the "hive" will slowly destabilize the living, raising their mental break threshold and lowering their learning speed.</li>
-        </customEffectDescriptions>
-        <symbolPack>
-            <prefixSymbols>
-                <li><symbol>hades</symbol></li>
-                <li><symbol>death</symbol></li>
-                <li><symbol>ripper</symbol></li>
-                <li><symbol>hiver</symbol></li>
-                <li><symbol>devour</symbol></li>
-            </prefixSymbols>
-            <suffixSymbols>
-                <li><symbol>hive</symbol></li>
-                <li><symbol>steal</symbol></li>
-            </suffixSymbols>
-        </symbolPack>
-		<modExtensions>
-			<li Class="VanillaGenesExpanded.GeneExtension">
-				<hediffToWholeBody>Hediff_DeathGuidance</hediffToWholeBody>
-			</li>
-		</modExtensions>
-    </GeneDef>
-
-    <GeneDef>
         <defName>AG_EncryptedDNA</defName>
         <label>encrypted dna</label>
         <description>Carriers of this gene have an abnormal DNA structure, making gene editing and scanning impossible.</description>

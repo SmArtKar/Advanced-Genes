@@ -14,6 +14,9 @@ namespace Advanced_Genes
 {
     public class AG_Settings : ModSettings
     {
+        public bool alphaGenesFound = false;
+        public bool compatibilityTab = false;
+
         public bool wipeDeathGuidance = false;
         public bool lowerDecayDeathGuidance = false;
         public float modifierDecayDeathGuidance = 0.5f;
@@ -26,6 +29,7 @@ namespace Advanced_Genes
 
         public float chanceBurningBlood = 0.35f;
         public float chanceSelfBurningBlood = 0.35f;
+        public int explosionRadiusBurningBlood = 4;
 
         public PatchSettings mainSettings;
         public PatchSettings lastSettings;
@@ -65,6 +69,10 @@ namespace Advanced_Genes
     {
         static StartupPatcher()
         {
+            bool alphaGenesFound = (ModLister.GetActiveModWithIdentifier("sarg.alphagenes") != null);
+            LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().alphaGenesFound = alphaGenesFound;
+            LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().compatibilityTab = alphaGenesFound || false;
+
             LoadedModManager.GetMod<AG_Mod>().ApplyPatches();
         }
     }
@@ -82,7 +90,8 @@ namespace Advanced_Genes
         internal enum TabOption
         {
             Genes,
-            Patches
+            Patches,
+            Compatibility
         }
 
         private TabOption CurTab { get; set; } = TabOption.Genes;
@@ -98,6 +107,11 @@ namespace Advanced_Genes
             var tabs = new List<TabRecord>();
             tabs.Add(new TabRecord("Gene Settings", delegate { CurTab = TabOption.Genes; }, CurTab == TabOption.Genes));
             tabs.Add(new TabRecord("Biotech Patches", delegate { CurTab = TabOption.Patches; }, CurTab == TabOption.Patches));
+            if (settings.compatibilityTab)
+            {
+                tabs.Add(new TabRecord("Compatibility Patches", delegate { CurTab = TabOption.Compatibility; }, CurTab == TabOption.Compatibility));
+            }
+
             TabDrawer.DrawTabs(tabRect, tabs);
 
             switch (CurTab)
@@ -107,6 +121,9 @@ namespace Advanced_Genes
                     break;
                 case TabOption.Patches:
                     DrawPatches(menuRect.ContractedBy(10));
+                    break;
+                case TabOption.Compatibility:
+                    DrawCompatibility(menuRect.ContractedBy(10));
                     break;
             }
 
@@ -144,12 +161,14 @@ namespace Advanced_Genes
             settings.modifierLengthDeathGuidance = (int)Widgets.HorizontalSlider(listing.GetRect(15f), settings.modifierLengthDeathGuidance, 1, 20, roundTo: 1);
             listing.Gap(30f);
 
-            listing.Label("Miscellaneous Settings".Translate());
+            listing.Label("Burning Blood Settings".Translate());
             listing.GapLine();
             listing.Label("Burning Blood enemy ignition chance (Default: 35%, Current value: " + (int)(settings.chanceBurningBlood * 100) + "%)");
             settings.chanceBurningBlood = Widgets.HorizontalSlider(listing.GetRect(15f), settings.chanceBurningBlood, 0.05f, 1f, roundTo: 0.01f);
             listing.Label("Burning Blood self ignition chance (Default: 35%, Current value: " + (int)(settings.chanceSelfBurningBlood * 100) + "%)");
             settings.chanceSelfBurningBlood = Widgets.HorizontalSlider(listing.GetRect(15f), settings.chanceSelfBurningBlood, 0.05f, 1f, roundTo: 0.01f);
+            listing.Label("Burning Blood explosion radius (Default: 4, Current value: " + settings.explosionRadiusBurningBlood + ")");
+            settings.explosionRadiusBurningBlood = (int)Widgets.HorizontalSlider(listing.GetRect(15f), settings.explosionRadiusBurningBlood, 1, 10, roundTo: 1);
 
             listing.End();
             Widgets.EndScrollView();
@@ -177,6 +196,30 @@ namespace Advanced_Genes
 
             listing.CheckboxLabeled("Custom Hemogen gene backgrounds", ref mainSettings.hemogenBackgrounds);
             listing.CheckboxLabeled("Genies have Blood Deficiency gene", ref mainSettings.genieBloodDeficiency);
+
+            if (settings.alphaGenesFound)
+            {
+                listing.CheckboxLabeled("Revert Alpha Genes backgrounds to vanilla", ref mainSettings.alphaGenesDefaultBackgrounds);
+            }
+
+            listing.End();
+            Widgets.EndScrollView();
+            CheckPatches();
+        }
+        private void DrawCompatibility(Rect rect)
+        {
+            PatchSettings mainSettings = settings.mainSettings;
+            Listing_Standard listing = new Listing_Standard();
+            var leftRect = rect.ContractedBy(5).Rounded();
+            Rect viewRect = new Rect(0f, 0f, rect.width - 35f, rect.height);
+            Widgets.BeginScrollView(leftRect, ref scrollPosition, viewRect);
+
+            listing.Begin(viewRect);
+
+            if (settings.alphaGenesFound)
+            {
+                listing.CheckboxLabeled("Revert Alpha Genes backgrounds to vanilla", ref mainSettings.alphaGenesDefaultBackgrounds);
+            }
 
             listing.End();
             Widgets.EndScrollView();
@@ -219,6 +262,12 @@ namespace Advanced_Genes
             }
 
             if (mainSettings.genieBloodDeficiency != lastSettings.genieBloodDeficiency)
+            {
+                ApplyPatches();
+                return;
+            }
+
+            if (mainSettings.alphaGenesDefaultBackgrounds != lastSettings.alphaGenesDefaultBackgrounds)
             {
                 ApplyPatches();
                 return;
@@ -316,6 +365,27 @@ namespace Advanced_Genes
             }
             lastSettings.hemogenBackgrounds = mainSettings.hemogenBackgrounds;
 
+            if (settings.alphaGenesFound)
+            {
+                foreach (GeneDef alphaGene in DefDatabase<GeneDef>.AllDefs.Where((GeneDef x) => x.GetModExtension<GeneExtension>() != null))
+                {
+                    GeneExtension genEx = alphaGene.GetModExtension<GeneExtension>();
+                    if (genEx.backgroundPathEndogenes == "UI/Icons/Genes/AG_Endogenes")
+                    {
+                        if (mainSettings.alphaGenesDefaultBackgrounds)
+                        {
+                            genEx.backgroundPathEndogenes = null;
+                            genEx.backgroundPathXenogenes = null;
+                        }
+                        else
+                        {
+                            genEx.backgroundPathEndogenes = "UI/Icons/Genes/AG_Endogenes";
+                            genEx.backgroundPathXenogenes = "UI/Icons/Genes/AG_Xenogenes";
+                        }
+                    }
+                }
+            }
+
             XenotypeDef genie = DefDatabase<XenotypeDef>.AllDefs.Where((XenotypeDef x) => x.defName == "Genie").ToList().FirstOrDefault();
             if (genie != null)
             {
@@ -355,6 +425,7 @@ namespace Advanced_Genes
         public int deadCalmCost = 1;
         public bool genieBloodDeficiency = false;
         public bool hemogenBackgrounds = true;
+        public bool alphaGenesDefaultBackgrounds = true;
 
         public void ExposeData()
         {
@@ -364,6 +435,7 @@ namespace Advanced_Genes
             Scribe_Values.Look(ref deadCalmCost, "deadCalmCost");
             Scribe_Values.Look(ref genieBloodDeficiency, "genieBloodDeficiency");
             Scribe_Values.Look(ref hemogenBackgrounds, "hemogenBackgrounds");
+            Scribe_Values.Look(ref alphaGenesDefaultBackgrounds, "alphaGenesDefaultBackgrounds");
         }
 
     }

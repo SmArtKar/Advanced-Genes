@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>   
     <HediffDef>
+        <defName>Hediff_BloodDeficiency</defName>
+        <label>blood deficiency</label>
+        <labelNoun>blood deficiency</labelNoun>
+        <description>You're not supposed to see this.</description>
+        <initialSeverity>1</initialSeverity>
+        <stages>
+            <li>
+                <totalBleedFactor>1.25</totalBleedFactor>
+                <becomeVisible>false</becomeVisible>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef>
+        <defName>Hediff_BloodRegen</defName>
+        <label>blood regen</label>
+        <labelNoun>blood regen</labelNoun>
+        <description>You're not supposed to see this.</description>
+        <initialSeverity>1</initialSeverity>
+        <stages>
+            <li>
+                <totalBleedFactor>0.75</totalBleedFactor>
+                <becomeVisible>false</becomeVisible>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef>
         <defName>Hediff_AcidBlood</defName>
 		<defaultLabelColor>(0.40, 0.65, 0.15)</defaultLabelColor>
         <label>acidic blood</label>
@@ -51,6 +79,7 @@
         </comps>
     </HediffDef>
 
+    <!--
     <HediffDef>
         <defName>Hediff_DeathGuidance</defName>
 		<defaultLabelColor>(0.37, 0.40, 0.50)</defaultLabelColor>
@@ -63,6 +92,7 @@
         <initialSeverity>1</initialSeverity>
         <hediffClass>Advanced_Genes.Hediff_DeathGuidance</hediffClass>
     </HediffDef>
+    -->
 
     <HediffDef>
         <defName>Hediff_EncryptedDNA</defName>
@@ -88,5 +118,53 @@
         </descriptionHyperlinks>
         <initialSeverity>1</initialSeverity>
         <hediffClass>Advanced_Genes.Hediff_UnstableDNA</hediffClass>
+    </HediffDef>
+
+    <HediffDef>
+        <defName>Hediff_PsychicBeacon</defName>
+		<defaultLabelColor>(0.84, 0.86, 0.26)</defaultLabelColor>
+        <label>psychic beacon</label>
+        <labelNoun>psychic beacon</labelNoun>
+        <description>Owner is extremely psy-sensetive due to a certain archogene and can affect others' mood when talking to them.</description>
+        <descriptionHyperlinks>
+            <GeneDef>AG_PsychicBeacon</GeneDef>
+        </descriptionHyperlinks>
+        <initialSeverity>1</initialSeverity>
+        <hediffClass>Advanced_Genes.Hediff_PsychicBeacon</hediffClass>
+        <stages>
+            <li>
+                <statFactors>
+                    <PsychicSensitivity>2.0</PsychicSensitivity>
+                </statFactors>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <HediffDef>
+        <defName>Hediff_InfusedUnstableDNA</defName>
+		<defaultLabelColor>(0.84, 0.86, 0.26)</defaultLabelColor>
+        <label>infused unstable dna</label>
+        <labelNoun>infused unstable dna</labelNoun>
+        <description>Owner's DNA has been infused with destabilized archite particles, making it chaotically mutate every hour.</description>
+        <descriptionHyperlinks>
+            <GeneDef>AG_InfusedUnstableDNA</GeneDef>
+        </descriptionHyperlinks>
+        <initialSeverity>1</initialSeverity>
+        <hediffClass>Advanced_Genes.Hediff_InfusedUnstableDNA</hediffClass>
+        <comps>
+            <li Class="HediffCompProperties_KillAfterDays">
+                <days>3</days>
+            </li>
+        </comps>
+    </HediffDef>
+
+    <HediffDef>
+        <defName>Hediff_Hivemind</defName>
+		<defaultLabelColor>(0.84, 0.86, 0.26)</defaultLabelColor>
+        <label>shittle's hivemind</label>
+        <labelNoun>shittle's hivemind</labelNoun>
+        <description>Owner is Shittle.</description>
+        <initialSeverity>1</initialSeverity>
+        <hediffClass>Advanced_Genes.Hediff_Hivemind</hediffClass>
     </HediffDef>
 </Defs>

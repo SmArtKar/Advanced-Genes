@@ -10,7 +10,7 @@ using static HarmonyLib.Code;
 
 namespace Advanced_Genes
 {
-    internal class Hediff_BurningBlood : Hediff_AttackDetector
+    public class Hediff_BurningBlood : Hediff_AttackDetector
     {
         public FloatRange fireRandom = new FloatRange(0f, 1f);
         public float fireChance;
@@ -56,7 +56,7 @@ namespace Advanced_Genes
         {
             base.Notify_PawnKilled();
             pawn.TryAttachFire(100f);
-            GenExplosion.DoExplosion(pawn.Position, pawn.Map, 3, DamageDefOf.Flame, pawn, (int)(DamageDefOf.Flame.defaultDamage * 1.5f), ignoredThings: new List<Thing> { pawn });
+            GenExplosion.DoExplosion(pawn.Position, pawn.Map, LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().explosionRadiusBurningBlood, DamageDefOf.Flame, pawn, (int)(DamageDefOf.Flame.defaultDamage * 1.5f), ignoredThings: new List<Thing> { pawn });
         }
         public override void Notify_KilledPawn(Pawn victim, DamageInfo? dinfo)
         {

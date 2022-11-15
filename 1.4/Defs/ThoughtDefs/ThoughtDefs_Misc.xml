@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <ThoughtDef>
+        <defName>ThoughtPsychicBeacon</defName>
+        <durationDays>0.5</durationDays>
+        <stackLimit>3</stackLimit>
+        <thoughtClass>Advanced_Genes.Thought_PsychicBeacon</thoughtClass>
+        <stages>
+            <li>
+                <label>psychically affected</label>
+                <description>I can still hear {0}'s voice...</description>
+                <baseMoodEffect>4</baseMoodEffect>
+            </li>
+        </stages>
+    </ThoughtDef>
+</Defs>
