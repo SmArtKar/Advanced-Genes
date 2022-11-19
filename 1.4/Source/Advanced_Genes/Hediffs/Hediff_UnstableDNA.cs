@@ -79,7 +79,7 @@ namespace Advanced_Genes
 
             foreach (var geneDef in allDefs)
             {
-                if (convertedGenes.Contains(geneDef))
+                if (convertedGenes.Contains(geneDef) || geneDef.biostatArc > 0)
                 {
                     continue;
                 }

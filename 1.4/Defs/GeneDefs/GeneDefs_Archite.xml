@@ -30,7 +30,7 @@
     <GeneDef>
         <defName>AG_InfusedUnstableDNA</defName>
         <label>archite-infused unstable dna</label>
-        <description>Owner's DNA has been infused with destabilized archite particles, making it chaotically mutate every hour.</description>
+        <description>Owner's DNA has been infused with destabilized archite particles, making it chaotically mutate every hour. Due to the destructive effects of rogue archites, the owner won't be able to survive for long.</description>
         <iconPath>UI/Icons/Genes/Gene_InfusedUnstableDNA</iconPath>
         <displayCategory>Archite</displayCategory>
         <biostatMet>0</biostatMet>

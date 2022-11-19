@@ -9,19 +9,49 @@ using Verse.AI;
 
 namespace Advanced_Genes 
 {
-    public class Hediff_Hivemind : HediffWithComps
+    public class Hediff_Hivemind : HediffWithComps, IExposable
     {
         public GameComponent_Hiveminds hivemindsComponent = Current.Game.GetComponent<GameComponent_Hiveminds>();
         public Hivemind connectedHivemind;
 
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_References.Look(ref connectedHivemind, "connectedHivemind");
+        }
+
         public virtual string getHivemindIcon
+        {
+            get
+            {
+                if (connectedHivemind != null)
+                {
+                    return connectedHivemind.getHivemindIcon;
+                }
+
+                return getDefaultHivemindIcon;
+            }
+        }
+        public virtual string getDefaultHivemindIcon
         {
             get
             {
                 return "UI/Icons/Genes/Gene_GestaltConsciousness";
             }
         }
+
         public virtual string getHivemindName
+        {
+            get
+            {
+                if (connectedHivemind != null)
+                {
+                    return connectedHivemind.getHivemindName;
+                }
+                return getDefaultHivemindName;
+            }
+        }
+        public virtual string getDefaultHivemindName
         {
             get
             {
@@ -64,7 +94,7 @@ namespace Advanced_Genes
 
         public virtual bool canConnectTo(Hivemind hivemind)
         {
-            return true;
+            return hivemind.attachedFaction == pawn.Faction;
         }
 
         public virtual Hivemind createNewHivemind(string name)

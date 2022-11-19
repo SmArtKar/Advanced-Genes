@@ -14,6 +14,14 @@ namespace Advanced_Genes
     {
         public List<Hivemind> hiveminds = new List<Hivemind>();
 
+        public int nextHiveID = -1;
+
+        public int getNextHiveID()
+        {
+            nextHiveID++;
+            return nextHiveID;
+        }
+
         public List<Hivemind> hivemindsByFaction(Faction faction)
         {
             List<Hivemind> targetHiveminds = hiveminds.Where((Hivemind x) => x.attachedFaction == faction).ToList();
@@ -23,9 +31,29 @@ namespace Advanced_Genes
             }
             return new List<Hivemind>();
         }
-        public List<Hivemind> hivemindsByType(Hediff_Hivemind hediff)
+
+        public List<Hivemind> hivemindsByFaction(Faction faction, List<Hivemind> hives)
+        {
+            List<Hivemind> targetHiveminds = hives.Where((Hivemind x) => x.attachedFaction == faction).ToList();
+            if (targetHiveminds != null)
+            {
+                return targetHiveminds;
+            }
+            return new List<Hivemind>();
+        }
+
+        public List<Hivemind> hivemindsByHediff(Hediff_Hivemind hediff)
         {
             List<Hivemind> targetHiveminds = hiveminds.Where((Hivemind x) => hediff.canConnectTo(x)).ToList();
+            if (targetHiveminds != null)
+            {
+                return targetHiveminds;
+            }
+            return new List<Hivemind>();
+        }
+        public List<Hivemind> hivemindsByHediff(Hediff_Hivemind hediff, List<Hivemind> hives)
+        {
+            List<Hivemind> targetHiveminds = hives.Where((Hivemind x) => hediff.canConnectTo(x)).ToList();
             if (targetHiveminds != null)
             {
                 return targetHiveminds;

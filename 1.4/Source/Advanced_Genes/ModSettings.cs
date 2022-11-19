@@ -9,6 +9,7 @@ using Verse;
 using VanillaGenesExpanded;
 using static UnityEngine.Experimental.Rendering.RayTracingAccelerationStructure;
 using System.Runtime.InteropServices.ComTypes;
+using Steamworks;
 
 namespace Advanced_Genes
 {
@@ -31,6 +32,8 @@ namespace Advanced_Genes
         public float chanceSelfBurningBlood = 0.35f;
         public int explosionRadiusBurningBlood = 4;
 
+        public bool fiestaMode = false;
+
         public PatchSettings mainSettings;
         public PatchSettings lastSettings;
 
@@ -49,6 +52,10 @@ namespace Advanced_Genes
 
             Scribe_Values.Look(ref chanceBurningBlood, "chanceBurningBlood");
             Scribe_Values.Look(ref chanceSelfBurningBlood, "chanceSelfBurningBlood");
+            Scribe_Values.Look(ref explosionRadiusBurningBlood, "explosionRadiusBurningBlood");
+
+            Scribe_Values.Look(ref fiestaMode, "fiestaMode");
+
 
             Scribe_Deep.Look(ref mainSettings, "patchSettings");
 
@@ -85,6 +92,10 @@ namespace Advanced_Genes
         public AG_Mod(ModContentPack content) : base(content)
         {
             this.settings = GetSettings<AG_Settings>();
+            if (SteamUser.GetSteamID().m_SteamID == 76561198028227150) //Sam's SteamID
+            {
+                settings.fiestaMode = true;
+            }
         }
 
         internal enum TabOption
@@ -169,6 +180,19 @@ namespace Advanced_Genes
             settings.chanceSelfBurningBlood = Widgets.HorizontalSlider(listing.GetRect(15f), settings.chanceSelfBurningBlood, 0.05f, 1f, roundTo: 0.01f);
             listing.Label("Burning Blood explosion radius (Default: 4, Current value: " + settings.explosionRadiusBurningBlood + ")");
             settings.explosionRadiusBurningBlood = (int)Widgets.HorizontalSlider(listing.GetRect(15f), settings.explosionRadiusBurningBlood, 1, 10, roundTo: 1);
+            listing.Gap(30f);
+
+            listing.Label("Miscellaneous Settings".Translate());
+            listing.GapLine();
+
+            if (SteamUser.GetSteamID().m_SteamID == 76561198028227150) //Sam's SteamID
+            {
+                listing.Label("The god is dead and I've killed him. Nobody can save you, Sam.");
+            } 
+            else
+            {
+                listing.CheckboxLabeled("Enable Fiesta Mode", ref settings.fiestaMode);
+            }
 
             listing.End();
             Widgets.EndScrollView();
@@ -196,11 +220,6 @@ namespace Advanced_Genes
 
             listing.CheckboxLabeled("Custom Hemogen gene backgrounds", ref mainSettings.hemogenBackgrounds);
             listing.CheckboxLabeled("Genies have Blood Deficiency gene", ref mainSettings.genieBloodDeficiency);
-
-            if (settings.alphaGenesFound)
-            {
-                listing.CheckboxLabeled("Revert Alpha Genes backgrounds to vanilla", ref mainSettings.alphaGenesDefaultBackgrounds);
-            }
 
             listing.End();
             Widgets.EndScrollView();

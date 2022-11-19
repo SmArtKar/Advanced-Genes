@@ -145,7 +145,7 @@
 		<defaultLabelColor>(0.84, 0.86, 0.26)</defaultLabelColor>
         <label>infused unstable dna</label>
         <labelNoun>infused unstable dna</labelNoun>
-        <description>Owner's DNA has been infused with destabilized archite particles, making it chaotically mutate every hour.</description>
+        <description>Owner's DNA has been infused with destabilized archite particles, making it chaotically mutate every hour. Due to the destructive effects of rogue archites, the owner won't be able to survive for long.</description>
         <descriptionHyperlinks>
             <GeneDef>AG_InfusedUnstableDNA</GeneDef>
         </descriptionHyperlinks>
@@ -153,7 +153,7 @@
         <hediffClass>Advanced_Genes.Hediff_InfusedUnstableDNA</hediffClass>
         <comps>
             <li Class="HediffCompProperties_KillAfterDays">
-                <days>3</days>
+                <days>5</days>
             </li>
         </comps>
     </HediffDef>

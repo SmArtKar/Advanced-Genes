@@ -34,7 +34,7 @@ namespace Advanced_Genes
             hiveName = hediff.getHivemindName;
         }
 
-        public override Vector2 InitialSize => new(500f, 162f);
+        public override Vector2 InitialSize => new(500f, 157f);
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -43,14 +43,14 @@ namespace Advanced_Genes
             Text.Font = GameFont.Medium;
             Widgets.Label(new(0f, 0f, 245f, 30f), "Create a new hivemind");
             Text.Font = GameFont.Small;
-            Widgets.Label(new(0f, 50f, 245f, 20f), "Name:");
+            Widgets.Label(new(0f, 45f, 245f, 20f), "Name:");
 
             Rect backgroundRect = new(inRect.width - 59f, 0f, 74f, 74f);
             Rect imageRect = new(inRect.width - 54f, 5f, 64f, 64f);
             GUI.DrawTexture(backgroundRect, backgroundIcon);
             GUI.DrawTexture(imageRect, hiveIcon);
 
-            Rect nameInputRect = new(60f, 45f, 300f, 30f);
+            Rect nameInputRect = new(60f, 40f, 300f, 30f);
 
             string text = Widgets.TextField(nameInputRect, hiveName);
             if (text.Length <= maxNameLength && ValidNameRegex.IsMatch(text))
@@ -58,14 +58,15 @@ namespace Advanced_Genes
                 hiveName = text;
             }
 
-            Rect createButton = new(0f, 90f, 170f, 35f);
+            Rect createButton = new(0f, 85f, 175f, 35f);
             if (Widgets.ButtonText(createButton, "Create hivemind"))
             {
                 hediff.createNewHivemind(hiveName);
+                InspectPaneUtility.OpenTab(typeof(ITab_Pawn_Hivemind));
                 Close();
             }
 
-            Rect cancelButton = new(180f, 90f, 170f, 35f);
+            Rect cancelButton = new(185f, 85f, 175f, 35f);
 
             if (Widgets.ButtonText(cancelButton, "Cancel"))
             {

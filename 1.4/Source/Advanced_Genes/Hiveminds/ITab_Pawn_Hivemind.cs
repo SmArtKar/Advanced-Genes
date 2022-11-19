@@ -62,17 +62,25 @@ namespace Advanced_Genes
 
         public void InitCache()
         {
+            pawn = (Pawn)Find.Selector.SingleSelectedThing;
             hediff = pawn.health.hediffSet.GetFirstHediff<Hediff_Hivemind>() as Hediff_Hivemind;
         }
 
         public void ClearCache()
         {
             hediff = null;
+            pawn = null;
         }
 
         public void updateSize()
         {
             base.UpdateSize();
+
+            if (pawn != (Pawn)Find.Selector.SingleSelectedThing)
+            {
+                InitCache();
+            }
+
             if (hediff.connectedHivemind != null)
             {
                 size = hediff.connectedHivemind.getRectPosition(pawn) + hediff.connectedHivemind.getRectSize(pawn);
@@ -85,7 +93,7 @@ namespace Advanced_Genes
         {
             if (Find.Selector.SingleSelectedThing is Pawn p && pawn != p)
             {
-                pawn = p;
+                InitCache();
             }
 
             if (pawn == null || hediff == null)
@@ -112,7 +120,7 @@ namespace Advanced_Genes
             Text.Font = GameFont.Medium;
             listing.Label("No active hivemind connection");
             Text.Font = GameFont.Small;
-            Rect imageRect = new(7f, 47f, 96f, 96f);
+            Rect imageRect = new(8f, 47f, 96f, 96f);
             Rect backgroundRect = new(0f, 40f, 110f, 110f);
             Rect connectButton = new(120f, 50f, 170f, 35f);
             Rect createButton = new(120f, 105f, 170f, 35f);
@@ -122,7 +130,20 @@ namespace Advanced_Genes
 
             if (Widgets.ButtonText(connectButton, "Connect to a hivemind"))
             {
-                CloseTab();
+                GameComponent_Hiveminds hiveComp = hediff.hivemindsComponent;
+                List<Hivemind> hiveminds = hiveComp.hivemindsByHediff(hediff);
+                if(hiveminds.Count > 0)
+                {
+                    List<FloatMenuOption> options = new List<FloatMenuOption>();
+                    foreach (Hivemind hive in hiveminds)
+                    {
+                        options.Add(new FloatMenuOption(hive.hiveName, delegate
+                        {
+                            hediff.attachToHivemind(hive);
+                        }));
+                    }
+                    Find.WindowStack.Add(new FloatMenu(options));
+                }
             }
 
             if (Widgets.ButtonText(createButton, "Create a new hivemind"))
