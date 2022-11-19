@@ -33,7 +33,7 @@ namespace Advanced_Genes.HarmonyPatches
         
         public static bool Pre_CanAcceptPawnRipper(Thing __instance, ref string __result, Pawn pawn)
         {
-            foreach (var geneBlocker in pawn.health.hediffSet.hediffs.OfType<Hediff_GeneChangeBlocker>())
+            foreach (Hediff_GeneChangeBlocker geneBlocker in pawn.health.hediffSet.hediffs.OfType<Hediff_GeneChangeBlocker>())
             {
                 if (geneBlocker.blockPawnScan(ref pawn))
                 {

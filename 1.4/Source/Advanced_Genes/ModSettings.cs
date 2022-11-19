@@ -98,7 +98,7 @@ namespace Advanced_Genes
             }
         }
 
-        internal enum TabOption
+        public enum TabOption
         {
             Genes,
             Patches,
@@ -115,7 +115,7 @@ namespace Advanced_Genes
 
             Widgets.DrawMenuSection(menuRect);
 
-            var tabs = new List<TabRecord>();
+            List<TabRecord> tabs = new List<TabRecord>();
             tabs.Add(new TabRecord("Gene Settings", delegate { CurTab = TabOption.Genes; }, CurTab == TabOption.Genes));
             tabs.Add(new TabRecord("Biotech Patches", delegate { CurTab = TabOption.Patches; }, CurTab == TabOption.Patches));
             if (settings.compatibilityTab)
@@ -144,7 +144,7 @@ namespace Advanced_Genes
         private void DrawGenes(Rect rect)
         {
             Listing_Standard listing = new Listing_Standard();
-            var leftRect = rect.ContractedBy(5).Rounded();
+            Rect leftRect = rect.ContractedBy(5).Rounded();
             Rect viewRect = new Rect(0f, 0f, rect.width - 35f, 750f);
             Widgets.BeginScrollView(leftRect, ref scrollPosition, viewRect);
 
@@ -202,7 +202,7 @@ namespace Advanced_Genes
         {
             PatchSettings mainSettings = settings.mainSettings;
             Listing_Standard listing = new Listing_Standard();
-            var leftRect = rect.ContractedBy(5).Rounded();
+            Rect leftRect = rect.ContractedBy(5).Rounded();
             Rect viewRect = new Rect(0f, 0f, rect.width - 35f, rect.height);
             Widgets.BeginScrollView(leftRect, ref scrollPosition, viewRect);
 
@@ -229,7 +229,7 @@ namespace Advanced_Genes
         {
             PatchSettings mainSettings = settings.mainSettings;
             Listing_Standard listing = new Listing_Standard();
-            var leftRect = rect.ContractedBy(5).Rounded();
+            Rect leftRect = rect.ContractedBy(5).Rounded();
             Rect viewRect = new Rect(0f, 0f, rect.width - 35f, rect.height);
             Widgets.BeginScrollView(leftRect, ref scrollPosition, viewRect);
 

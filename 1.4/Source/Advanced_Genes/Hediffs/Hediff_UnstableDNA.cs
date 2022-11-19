@@ -8,7 +8,7 @@ using Verse;
 
 namespace Advanced_Genes
 {
-    internal class Hediff_UnstableDNA : Hediff_GeneChangeBlocker
+    public class Hediff_UnstableDNA : Hediff_GeneChangeBlocker
     {
         public bool geneEdit = false;
         public int tickInterval = 0;
@@ -72,12 +72,12 @@ namespace Advanced_Genes
             List<GeneDef> convertedGenes = new List<GeneDef>();
             List<GeneDef> fittingGenes = new List<GeneDef>();
 
-            foreach (var pawnGene in genes)
+            foreach (Gene pawnGene in genes)
             {
                 convertedGenes.Add(pawnGene.def);
             }
 
-            foreach (var geneDef in allDefs)
+            foreach (GeneDef geneDef in allDefs)
             {
                 if (convertedGenes.Contains(geneDef) || geneDef.biostatArc > 0)
                 {
@@ -95,7 +95,7 @@ namespace Advanced_Genes
                 if (geneDef.exclusionTags != null)
                 {
                     bool foundConflict = false;
-                    foreach (var pawnGene in convertedGenes)
+                    foreach (GeneDef pawnGene in convertedGenes)
                     {
                         if (geneDef.ConflictsWith(pawnGene))
                         {
@@ -122,7 +122,7 @@ namespace Advanced_Genes
             Dictionary<GeneDef, Gene> hairGenes = new Dictionary<GeneDef, Gene>();
             Dictionary<GeneDef, Gene> skinGenes = new Dictionary<GeneDef, Gene>();
 
-            foreach (var pawnGene in genes)
+            foreach (Gene pawnGene in genes)
             {
                 if (pawnGene.def.defName == "AG_UnstableDNA" || pawnGene.def.defName == "AG_InfusedUnstableDNA")
                 {
@@ -161,7 +161,7 @@ namespace Advanced_Genes
                 fittingGenes.Concat(skinGenes).ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, g => g.First());
             }
 
-            foreach (var pawnGene in fittingGenes.Keys)
+            foreach (GeneDef pawnGene in fittingGenes.Keys)
             {
                 if (pawnGene.prerequisite != null)
                 {

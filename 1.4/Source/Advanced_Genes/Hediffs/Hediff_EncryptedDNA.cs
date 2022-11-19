@@ -7,7 +7,7 @@ using Verse;
 
 namespace Advanced_Genes
 {
-    internal class Hediff_EncryptedDNA : Hediff_GeneChangeBlocker
+    public class Hediff_EncryptedDNA : Hediff_GeneChangeBlocker
     {
         public override bool blockGeneChange(ref Gene gene, ref bool addAsXenogene)
         {

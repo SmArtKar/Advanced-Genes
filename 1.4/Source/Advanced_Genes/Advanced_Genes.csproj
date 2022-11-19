@@ -49,9 +49,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="HarmonyMod">
-      <HintPath>..\..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\HarmonyMod.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,9 +69,12 @@
   <ItemGroup>
     <Compile Include="AG_DefOf.cs" />
     <Compile Include="Hediffs\Hediff_InfusedUnstableDNA.cs" />
+    <Compile Include="Hiveminds\DeathGuidance\Hediff_HivemindDeathGuidance.cs" />
+    <Compile Include="Hiveminds\DeathGuidance\Hivemind_DeathGuidance.cs" />
     <Compile Include="Hiveminds\Dialog_CreateHivemind.cs" />
     <Compile Include="Hiveminds\GameComponent_Hiveminds.cs" />
     <Compile Include="Hiveminds\Hediff_Hivemind.cs" />
+    <Compile Include="Hiveminds\Hediff_Overseer.cs" />
     <Compile Include="Hiveminds\Hivemind.cs" />
     <Compile Include="Hiveminds\ITab_Pawn_Hivemind.cs" />
     <Compile Include="HarmonyPatches\OptionalPatches.cs" />

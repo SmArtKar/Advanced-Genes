@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Advanced_Genes.Hiveminds;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace Advanced_Genes
             }
         }
 
-        public virtual int overseerAssignmentDeathCooldown
+        public virtual int overseerDeathCooldown
         {
             get
             {
@@ -123,16 +124,13 @@ namespace Advanced_Genes
 
         public virtual void renderHivemindMenu(Rect tabRect, Pawn pawn)
         {
-            var font = Text.Font;
-            var anchor = Text.Anchor;
             GUI.BeginGroup(tabRect);
             Listing_Standard listing = new();
             listing.Begin(tabRect);
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(10f, 5f, 300f, 50f), hiveName);
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(10f, 35f, 300f, 50f), "Current members:");
-            renderPawnMenu(new Rect(5f, 60f, 250f, 320f), pawn);
+            renderPawnMenu(new Rect(5f, 35f, 250f, 320f), pawn);
             renderOverseerMenu(new Rect(265f, 10f, 276f, 380f), pawn);
             listing.End();
             GUI.EndGroup();
@@ -242,12 +240,21 @@ namespace Advanced_Genes
             overseerAssignmentTickCooldown = Find.TickManager.TicksGame + overseerAssignmentCooldown;
         }
 
+        public virtual void overseerDeath(Hediff_Overseer overseerHediff)
+        {
+            currentOverseer.health.RemoveHediff(overseerHediff);
+            currentOverseer = null;
+            overseerAssignmentTickCooldown = Find.TickManager.TicksGame + overseerDeathCooldown;
+        }
+
         public virtual void renderPawnMenu(Rect tabRect, Pawn pawn)
         {
             Listing_Standard listing = new Listing_Standard();
-            Rect pawnRect = new Rect(tabRect.xMin, tabRect.yMin, 250f, 500f);
+            Widgets.Label(new Rect(tabRect.xMin + 5f, tabRect.yMin, 300f, 50f), "Current members:");
+            Rect pawnRect = new Rect(tabRect.xMin, tabRect.yMin, 250f, 475f);
             Widgets.BeginScrollView(tabRect, ref scrollPosition, pawnRect, false);
             listing.Begin(pawnRect);
+            listing.Gap(25f);
             bool colorAlternator = true;
             Color alternativeColor = new Color(1f, 1f, 1f, 0.5f);
             Color lineColor = new Color(1f, 1f, 1f, 0.4f);

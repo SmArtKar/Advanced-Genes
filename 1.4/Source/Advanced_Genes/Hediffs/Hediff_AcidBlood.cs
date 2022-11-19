@@ -10,7 +10,7 @@ using static HarmonyLib.Code;
 
 namespace Advanced_Genes
 {
-    internal class Hediff_AcidBlood : Hediff_AttackDetector
+    public class Hediff_AcidBlood : Hediff_AttackDetector
     {
         public float armorPenetration = 0.3f;
         public float damageModifier = 0.2f;

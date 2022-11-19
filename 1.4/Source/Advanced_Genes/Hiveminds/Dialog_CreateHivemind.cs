@@ -13,7 +13,7 @@ using static Mono.Security.X509.X520;
 namespace Advanced_Genes
 {
     [StaticConstructorOnStartup]
-    internal class Dialog_CreateHivemind : Window
+    public class Dialog_CreateHivemind : Window
     {
         private static Texture2D backgroundIcon = ContentFinder<Texture2D>.Get("UI/Icons/UI_Background");
         public static Regex ValidNameRegex = new Regex("^[\\p{L}0-9 '\\-.]*$");

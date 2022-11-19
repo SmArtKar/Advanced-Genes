@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-    <!--
     <GeneDef>
         <defName>AG_DeathGuidance</defName>
         <label>guidance of the dead</label>
-        <description>Carriers of this gene have a psychically hypersensitive organ in their brain that allows them to absorb knowledge of their dead comrades with the same gene.</description>
+        <description>Carriers of this gene are able to sustain a Hades-type hivemind, allowing them to absorb skills of their dead comrades.</description>
         <iconPath>UI/Icons/Genes/Gene_DeathGuidance</iconPath>
         <displayCategory>Hiveminds</displayCategory>
         <biostatMet>-6</biostatMet>
@@ -14,8 +13,7 @@
             <li>AG_Exclusion_Hivemind</li>
         </exclusionTags>
         <customEffectDescriptions>
-            <li>When a carrier of this gene dies, all other carriers from the same faction will partially recieve their skills.</li>
-            <li>Every mind in the hivemind will slowly destabilize the living, raising their mental break threshold and lowering their learning speed.</li>
+            <li>When a carrier of this gene dies, all other carriers linked to the same hivemind will partially recieve their skills.</li>
         </customEffectDescriptions>
         <symbolPack>
             <prefixSymbols>
@@ -37,5 +35,4 @@
 			</li>
 		</modExtensions>
     </GeneDef>
-    -->
 </Defs>

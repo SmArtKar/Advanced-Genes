@@ -79,21 +79,6 @@
         </comps>
     </HediffDef>
 
-    <!--
-    <HediffDef>
-        <defName>Hediff_DeathGuidance</defName>
-		<defaultLabelColor>(0.37, 0.40, 0.50)</defaultLabelColor>
-        <label>guidance of the dead</label>
-        <labelNoun>guidance of the dead</labelNoun>
-        <description>Owner's brain contains a psychically hypersensitive organ that allows them to absorb the knowledge of their dead comrades.</description>
-        <descriptionHyperlinks>
-            <GeneDef>AG_DeathGuidance</GeneDef>
-        </descriptionHyperlinks>
-        <initialSeverity>1</initialSeverity>
-        <hediffClass>Advanced_Genes.Hediff_DeathGuidance</hediffClass>
-    </HediffDef>
-    -->
-
     <HediffDef>
         <defName>Hediff_EncryptedDNA</defName>
 		<defaultLabelColor>(0.32, 0.63, 0.77)</defaultLabelColor>
@@ -122,7 +107,7 @@
 
     <HediffDef>
         <defName>Hediff_PsychicBeacon</defName>
-		<defaultLabelColor>(0.84, 0.86, 0.26)</defaultLabelColor>
+		<defaultLabelColor>(0.84, 0.96, 0.26)</defaultLabelColor>
         <label>psychic beacon</label>
         <labelNoun>psychic beacon</labelNoun>
         <description>Owner is extremely psy-sensetive due to a certain archogene and can affect others' mood when talking to them.</description>

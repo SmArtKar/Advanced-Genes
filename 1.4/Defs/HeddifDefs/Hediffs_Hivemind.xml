@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <HediffDef>
+        <defName>Hediff_DeathGuidance</defName>
+		<defaultLabelColor>(0.33, 0.42, 0.57)</defaultLabelColor>
+        <label>guidance of the dead</label>
+        <labelNoun>guidance of the dead</labelNoun>
+        <description>Owner's brain contains a psychically hypersensitive organ that allows them to absorb the knowledge of their dead comrades.</description>
+        <descriptionHyperlinks>
+            <GeneDef>AG_DeathGuidance</GeneDef>
+        </descriptionHyperlinks>
+        <initialSeverity>1</initialSeverity>
+        <hediffClass>Advanced_Genes.Hediff_HivemindDeathGuidance</hediffClass>
+    </HediffDef>
+
+</Defs>

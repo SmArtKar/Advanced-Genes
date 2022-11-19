@@ -32,6 +32,7 @@ namespace Advanced_Genes
                 return getDefaultHivemindIcon;
             }
         }
+
         public virtual string getDefaultHivemindIcon
         {
             get
@@ -51,11 +52,12 @@ namespace Advanced_Genes
                 return getDefaultHivemindName;
             }
         }
+
         public virtual string getDefaultHivemindName
         {
             get
             {
-                return "Gestalt Consciousness";
+                return (LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().fiestaMode) ? "Reddit" : "Gestalt Consciousness";
             }
         }
 
@@ -112,6 +114,7 @@ namespace Advanced_Genes
                 disconnectFromHivemind();
             }
         }
+
         public override void Notify_KilledPawn(Pawn victim, DamageInfo? dinfo)
         {
             base.Notify_KilledPawn(victim, dinfo);

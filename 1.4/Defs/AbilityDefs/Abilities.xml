@@ -4,8 +4,8 @@
         <defName>MVCFAdvancedGenes</defName>
         <label>Advanced Genes</label>
         <description>Used to add abilties to the extremely based overseer hediffs.</description>
-        <Features>
-            <HediffVerbs>true</HediffVerbs>
-        </Features>
+        <ActivateFeatures>
+            <li>HediffVerbs</li>
+        </ActivateFeatures>
     </MVCF.ModDef>
 </Defs>

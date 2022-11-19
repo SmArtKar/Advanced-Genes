@@ -8,7 +8,7 @@ using Verse;
 
 namespace Advanced_Genes
 {
-    internal class Hediff_InfusedUnstableDNA : Hediff_UnstableDNA
+    public class Hediff_InfusedUnstableDNA : Hediff_UnstableDNA
     {
         public Hediff_InfusedUnstableDNA()
         {

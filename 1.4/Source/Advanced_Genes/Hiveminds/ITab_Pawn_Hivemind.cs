@@ -22,7 +22,7 @@ namespace Advanced_Genes
 
         static ITab_Pawn_Hivemind()
         {
-            foreach (var def in DefDatabase<ThingDef>.AllDefs)
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
                 if (def.race is { Humanlike: true })
                 {
                     def.inspectorTabs?.Add(typeof(ITab_Pawn_Hivemind));
@@ -111,8 +111,6 @@ namespace Advanced_Genes
                 return;
             }
 
-            var font = Text.Font;
-            var anchor = Text.Anchor;
             Rect tabRect = new(Vector2.one * 10f, this.size - Vector2.one * 10f);
             GUI.BeginGroup(tabRect);
             Listing_Standard listing = new();
