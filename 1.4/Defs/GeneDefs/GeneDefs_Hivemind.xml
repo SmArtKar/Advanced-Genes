@@ -28,7 +28,6 @@
                 <li><symbol>steal</symbol></li>
             </suffixSymbols>
         </symbolPack>
-
 		<modExtensions>
 			<li Class="VanillaGenesExpanded.GeneExtension">
 				<hediffToWholeBody>Hediff_DeathGuidance</hediffToWholeBody>

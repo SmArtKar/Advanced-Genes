@@ -18,7 +18,6 @@ namespace Advanced_Genes
         public bool alphaGenesFound = false;
         public bool compatibilityTab = false;
 
-        public bool wipeDeathGuidance = false;
         public bool lowerDecayDeathGuidance = false;
         public float modifierDecayDeathGuidance = 0.5f;
         public int modifierLengthDeathGuidance = 10;
@@ -40,7 +39,6 @@ namespace Advanced_Genes
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref wipeDeathGuidance, "wipeDeathGuidance");
             Scribe_Values.Look(ref lowerDecayDeathGuidance, "lowerDecayDeathGuidance");
             Scribe_Values.Look(ref modifierDecayDeathGuidance, "modifierDecayDeathGuidance");
             Scribe_Values.Look(ref modifierLengthDeathGuidance, "modifierLengthDeathGuidance");
@@ -164,7 +162,6 @@ namespace Advanced_Genes
 
             listing.Label("Guidance Of The Dead Settings".Translate());
             listing.GapLine();
-            listing.CheckboxLabeled("Wipe skill storage upon last member's death", ref settings.wipeDeathGuidance, "When the last pawn from your faction with the Guidance Of The Dead gene dies, the hivemind skill storage gets wiped clean.");
             listing.CheckboxLabeled("Lower skill decay amount", ref settings.lowerDecayDeathGuidance, "Whenever a pawn with a skill lower than the hivemind's dies, hivemind's skill will only drop by 2/3rds of what it would've dropped with this option toggled off.");
             listing.Label("Debuff decay modifier (Default: 0.5, Current value: " + settings.modifierDecayDeathGuidance + ")");
             settings.modifierDecayDeathGuidance = Widgets.HorizontalSlider(listing.GetRect(15f), settings.modifierDecayDeathGuidance, 0.1f, 1f, roundTo: 0.1f);
@@ -213,13 +210,15 @@ namespace Advanced_Genes
             listing.CheckboxLabeled("Dead Calm applies Iron-Willed/Steadfast", ref mainSettings.deadCalmNerves);
             if (mainSettings.deadCalmNerves)
             {
-                listing.CheckboxLabeled("When active, Dead Calm will apply Iron-Willed. When inactive, it will apply Steadfast", ref mainSettings.deadCalmIron);
+                if (listing.RadioButton("Iron-Willed", mainSettings.deadCalmIron)) mainSettings.deadCalmIron = true;
+                if (listing.RadioButton("Steadfast", !mainSettings.deadCalmIron)) mainSettings.deadCalmIron = false;
+
                 listing.Label("Dead Calm metabolic cost (Default: 1, Recommended: 3, Current value: " + mainSettings.deadCalmCost + ")");
                 mainSettings.deadCalmCost = (int)Widgets.HorizontalSlider(listing.GetRect(15f), mainSettings.deadCalmCost, 1, 5, roundTo: 1);
             }
 
             listing.CheckboxLabeled("Custom Hemogen gene backgrounds", ref mainSettings.hemogenBackgrounds);
-            listing.CheckboxLabeled("Genies have Blood Deficiency gene", ref mainSettings.genieBloodDeficiency);
+            listing.CheckboxLabeled("Genies have the Blood Deficiency gene", ref mainSettings.genieBloodDeficiency);
 
             listing.End();
             Widgets.EndScrollView();

@@ -13,4 +13,16 @@
         <hediffClass>Advanced_Genes.Hediff_HivemindDeathGuidance</hediffClass>
     </HediffDef>
 
+    <HediffDef>
+        <defName>Hediff_OverseerDeathGuidance</defName>
+		<defaultLabelColor>(0.33, 0.42, 0.57)</defaultLabelColor>
+        <label>overseer of the dead</label>
+        <labelNoun>overseer of the dead</labelNoun>
+        <description>Owner is.</description>
+        <descriptionHyperlinks>
+            <GeneDef>AG_DeathGuidance</GeneDef>
+        </descriptionHyperlinks>
+        <initialSeverity>1</initialSeverity>
+        <hediffClass>Advanced_Genes.Hediff_OverseerDeathGuidance</hediffClass>
+    </HediffDef>
 </Defs>

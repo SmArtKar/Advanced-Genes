@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Verse;
-using VFECore;
 using static HarmonyLib.Code;
 
 namespace Advanced_Genes
@@ -18,15 +17,26 @@ namespace Advanced_Genes
         public Dictionary<SkillDef, float> skillValues = new Dictionary<SkillDef, float>();
         public int totalDead = 0;
 
-        public Hivemind_DeathGuidance() { }
+        public Dictionary<string, float> damageMultipliers = new Dictionary<string, float>()
+        {
+            { "Soulblast", 1f }
+        };
+
+        public Dictionary<string, bool> specialAbilties = new Dictionary<string, bool>()
+        {
+            { "Soulblast", false }
+        };
+
+        public Hivemind_DeathGuidance() 
+        { 
+            overseerCasts = new Dictionary<AbilityDef, int>()
+            {
+                { AG_DefOf.AG_Ability_Soulblast, 3 }
+            };
+        }
 
         public Hivemind_DeathGuidance(string hiveName, Faction hiveFaction)
         {
-            this.hiveName = hiveName;
-            attachedFaction = hiveFaction;
-            hivemindsComponent.hiveminds.Add(this);
-            loadID = hivemindsComponent.getNextHiveID();
-
             foreach (SkillDef skillDef in DefDatabase<SkillDef>.AllDefs)
             {
                 skillValues[skillDef] = 0f;
@@ -71,6 +81,13 @@ namespace Advanced_Genes
                 return "UI/Icons/Hivemind/OverseerSkull";
             }
         }
+        public override HediffDef overseerHediffDef
+        {
+            get
+            {
+                return AG_DefOf.Hediff_OverseerDeathGuidance;
+            }
+        }
 
         public override Vector2 getRectSize(Pawn pawn)
         {
@@ -87,6 +104,7 @@ namespace Advanced_Genes
             Text.Font = GameFont.Small;
             renderPawnMenu(new Rect(5f, 35f, 250f, 355f), pawn);
             renderSkillMenu(new Rect(265f, 60f, 120f, 380f), pawn);
+            drawVerticalLine(395f, 5f, 375f);
             renderOverseerMenu(new Rect(400f, 10f, 276f, 380f), pawn);
             listing.End();
             GUI.EndGroup();
@@ -111,33 +129,7 @@ namespace Advanced_Genes
 
         public void absorbCorpse(Pawn corpse)
         {
-            bool wipeSkills = LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().wipeDeathGuidance;
             bool lowerDecay = LoadedModManager.GetMod<AG_Mod>().GetSettings<AG_Settings>().lowerDecayDeathGuidance;
-
-            bool livingPawns = false;
-            foreach (Pawn pawn in attachedPawns.Keys.ToList())
-            {
-                if (!pawn.health.Dead)
-                {
-                    livingPawns = true;
-                    break;
-                }
-            }
-
-            if (!livingPawns && wipeSkills)
-            {
-                foreach (SkillDef skillDef in DefDatabase<SkillDef>.AllDefs)
-                {
-                    skillValues[skillDef] = 0f;
-                }
-
-                totalDead += 1;
-                foreach (Pawn pawn in attachedPawns.Keys.ToList())
-                {
-                    updatePawnSkills(pawn);
-                }
-                return;
-            }
 
             foreach (SkillDef skillDef in DefDatabase<SkillDef>.AllDefs)
             {

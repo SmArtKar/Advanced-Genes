@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>   
+    <AbilityDef>
+        <defName>AG_Ability_Soulblast</defName>
+        <label>soul blast</label>
+        <description>Channel the power of the dead and launch 3 soul blasts at the target. Each blast deals 5 damage by default and scales with the amount of dead pawns in the hivemind.</description>
+        <iconPath>UI/Abilities/Ability_Soulblast</iconPath>
+        <cooldownTicksRange>600</cooldownTicksRange>
+        <aiCanUse>true</aiCanUse>
+
+        <verbProperties>
+          <verbClass>Verb_CastAbility</verbClass>
+          <range>7.9</range>
+          <warmupTime>0.5</warmupTime>
+          <soundCast>Soulblast_Launch</soundCast>
+        </verbProperties>
+
+        <comps>
+          <li Class="Advanced_Genes.CompProperties_AbilityLaunchSoulblast">
+            <projectileDef>AG_Soulblast</projectileDef>
+          </li>
+        </comps>
+      </AbilityDef>
+
+      <ThingDef ParentName="BaseBullet">
+        <defName>AG_Soulblast</defName>
+        <label>soul blast</label>
+        <thingClass>Advanced_Genes.Soulblast</thingClass>
+        <graphicData>
+          <texPath>Things/Projectile/PiercingSpine</texPath>
+          <graphicClass>Graphic_Single</graphicClass>
+        </graphicData>
+        <projectile>
+          <damageDef>Blunt</damageDef>
+          <damageAmountBase>5</damageAmountBase>
+          <armorPenetrationBase>0.5</armorPenetrationBase>
+          <stoppingPower>1</stoppingPower>
+          <speed>40</speed>
+        </projectile>
+      </ThingDef>
+</Defs>

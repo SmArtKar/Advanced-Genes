@@ -1,8 +1,8 @@
-﻿using Advanced_Genes.Hiveminds;
-using RimWorld;
+﻿using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +22,7 @@ namespace Advanced_Genes
 
         public Faction attachedFaction; //No cross-faction hiveminds
         public Dictionary<Pawn, Hediff_Hivemind> attachedPawns = new Dictionary<Pawn, Hediff_Hivemind>();
+        public Dictionary<AbilityDef, int> overseerCasts = new Dictionary<AbilityDef, int>();
 
         public List<Pawn> pawnPlaceholder;
         public List<Hediff_Hivemind> hediffPlaceholder;
@@ -92,6 +93,14 @@ namespace Advanced_Genes
             }
         }
 
+        public virtual HediffDef overseerHediffDef
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public virtual void ExposeData()
         {
             Scribe_Collections.Look(ref attachedPawns, "attachedPawns", LookMode.Reference, LookMode.Reference, ref pawnPlaceholder, ref hediffPlaceholder);
@@ -105,11 +114,32 @@ namespace Advanced_Genes
         public virtual void connectPawn(Pawn pawn, Hediff_Hivemind hediff)
         {
             attachedPawns[pawn] = hediff;
+
+            if (currentOverseer != null)
+            {
+                Hediff_Overseer overseerHediff = currentOverseer.health.hediffSet.GetFirstHediffOfDef(overseerHediffDef) as Hediff_Overseer;
+                overseerHediff.recalculateAbilities();
+            }
         }
 
         public virtual void disconnectPawn(Pawn pawn, Hediff_Hivemind hediff)
         {
             attachedPawns.Remove(pawn);
+            if (attachedPawns.Count < overseerMemberRequirement)
+            {
+                removeOverseer();
+            }
+
+            if (currentOverseer != null)
+            {
+                Hediff_Overseer overseerHediff = currentOverseer.health.hediffSet.GetFirstHediffOfDef(overseerHediffDef) as Hediff_Overseer;
+                overseerHediff.recalculateAbilities();
+            }
+
+            if (attachedPawns.Count == 0)
+            {
+                Current.Game.GetComponent<GameComponent_Hiveminds>().hiveminds.Remove(this); //The only thing that could(should) referencing it so doing this should delete it
+            }
         }
 
         public virtual Vector2 getRectPosition(Pawn pawn)
@@ -131,9 +161,63 @@ namespace Advanced_Genes
             Widgets.Label(new Rect(10f, 5f, 300f, 50f), hiveName);
             Text.Font = GameFont.Small;
             renderPawnMenu(new Rect(5f, 35f, 250f, 320f), pawn);
+            drawVerticalLine(260f, 5f, 375f);
             renderOverseerMenu(new Rect(265f, 10f, 276f, 380f), pawn);
             listing.End();
             GUI.EndGroup();
+        }
+
+        public void drawVerticalLine(float x, float y, float length)
+        {
+            Color color = GUI.color;
+            GUI.color = color * new Color(1f, 1f, 1f, 0.4f);
+            Widgets.DrawLineVertical(x, y, length);
+            GUI.color = color;
+        }
+
+        public virtual bool attemptAssignOverseer(Rect tabRect, Pawn pawn)
+        {
+            int pawnCount = attachedPawns.Keys.ToList().Where((Pawn x) => !x.health.Dead).Count(); //for hiveminds that don't disconnect their members upon death for some reason
+            if (pawnCount < overseerMemberRequirement)
+            {
+                Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
+                GUI.color = disabledColor;
+                Widgets.ButtonText(lockedButton, "Unable to assign an Overseer: Not enough hivemind members (" + pawnCount + "/" + overseerMemberRequirement + ")", active: false);
+                GUI.color = Color.white;
+                return false;
+            }
+            
+            if (overseerAssignmentTickCooldown > Find.TickManager.TicksGame)
+            {
+                Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
+                GUI.color = disabledColor;
+                Widgets.ButtonText(lockedButton, "Unable to assign an Overseer: Wait " + ((int)((overseerAssignmentTickCooldown - Find.TickManager.TicksGame) / GenDate.TicksPerDay * 10)) / 10 + " more days", active: false);
+                GUI.color = Color.white;
+                return false;
+            }
+            
+            if (attachedPawns.Keys.ToList().Where((Pawn x) => canBecomeOverseer(x)).Count() == 0)
+            {
+                Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
+                GUI.color = disabledColor;
+                Widgets.ButtonText(lockedButton, "Unable to assign an Overseer: No pawns fitting the requirements", active: false);
+                GUI.color = Color.white;
+                return false;
+            }
+            return true;
+        }
+
+        public virtual bool attemptReassignOverseer(Rect tabRect, Pawn pawn)
+        {
+            if (overseerAssignmentTickCooldown > Find.TickManager.TicksGame)
+            {
+                Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
+                GUI.color = disabledColor;
+                Widgets.ButtonText(lockedButton, "Unable to reassign an Overseer: Wait " + ((int)((overseerAssignmentTickCooldown - Find.TickManager.TicksGame) / GenDate.TicksPerDay * 10)) / 10 + " more days", active: false);
+                GUI.color = Color.white;
+                return false;
+            }
+            return true;
         }
 
         public virtual void renderOverseerMenu(Rect tabRect, Pawn pawn)
@@ -142,33 +226,10 @@ namespace Advanced_Genes
             GUI.DrawTexture(backgroundRect, ContentFinder<Texture2D>.Get("UI/Icons/UI_Background"));
             if (currentOverseer == null)
             {
-                Rect imageRect = new(tabRect.xMin + 5f + (tabRect.width - 138f) / 2, tabRect.yMin + 5f, 128f, 128f);
+                Rect overseerImageRect = new(tabRect.xMin + 5f + (tabRect.width - 138f) / 2, tabRect.yMin + 5f, 128f, 128f);
                 Texture2D overseerIcon = ContentFinder<Texture2D>.Get(getOverseerIcon);
-                GUI.DrawTexture(imageRect, overseerIcon);
-                int pawnCount = attachedPawns.Keys.ToList().Where((Pawn x) => !x.health.Dead).Count(); //for hiveminds that don't disconnect their members upon death for some reason
-                if (pawnCount < overseerMemberRequirement)
-                {
-                    Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
-                    GUI.color = disabledColor;
-                    Widgets.ButtonText(lockedButton, "Unable to assign an Overseer: Not enough pawns (" + pawnCount + "/" + overseerMemberRequirement + ")", active: false);
-                    GUI.color = Color.white;
-
-                }
-                else if (overseerAssignmentTickCooldown > Find.TickManager.TicksGame)
-                {
-                    Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
-                    GUI.color = disabledColor;
-                    Widgets.ButtonText(lockedButton, "Unable to assign an Overseer: Wait " + ((int)((overseerAssignmentTickCooldown - Find.TickManager.TicksGame) / GenDate.TicksPerDay * 10)) / 10 + " more days", active: false);
-                    GUI.color = Color.white;
-                }
-                else if (attachedPawns.Keys.ToList().Where((Pawn x) => canBecomeOverseer(x)).Count() == 0)
-                {
-                    Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
-                    GUI.color = disabledColor;
-                    Widgets.ButtonText(lockedButton, "Unable to assign an Overseer: Wait " + ((int)((overseerAssignmentTickCooldown - Find.TickManager.TicksGame) / GenDate.TicksPerDay * 10)) / 10 + " more days", active: false);
-                    GUI.color = Color.white;
-                }
-                else
+                GUI.DrawTexture(overseerImageRect, overseerIcon);
+                if (attemptAssignOverseer(tabRect, pawn))
                 {
                     Rect assignButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 35f);
                     if(Widgets.ButtonText(assignButton, "Assign an Overseer"))
@@ -185,38 +246,70 @@ namespace Advanced_Genes
                         Find.WindowStack.Add(new FloatMenu(options));
                     }
                 }
+                return;
             }
-            else
-            {
-                Rect imageRect = new(tabRect.xMin + 5f + (tabRect.width - 138f) / 2, tabRect.yMin , 128f, 128f);
-                RenderTexture image = PortraitsCache.Get(currentOverseer, new Vector2(128f, 128f), Rot4.South, default(Vector3), healthStateOverride: PawnHealthState.Mobile, cameraZoom: 1f);
-                GUI.DrawTexture(imageRect, image);
 
-                if (overseerAssignmentTickCooldown > Find.TickManager.TicksGame)
+            Rect imageRect = new(tabRect.xMin + 5f + (tabRect.width - 138f) / 2, tabRect.yMin , 128f, 128f);
+            RenderTexture image = PortraitsCache.Get(currentOverseer, new Vector2(128f, 128f), Rot4.South, default(Vector3), healthStateOverride: PawnHealthState.Mobile, cameraZoom: 1f);
+            GUI.DrawTexture(imageRect, image);
+
+            if (attemptReassignOverseer(tabRect, pawn))
+            {
+                Rect assignButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 35f);
+                if (Widgets.ButtonText(assignButton, "Reassign an Overseer"))
                 {
-                    Rect lockedButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 50f);
-                    GUI.color = disabledColor;
-                    Widgets.ButtonText(lockedButton, "Unable to reassign an Overseer: Wait " + ((int)((overseerAssignmentTickCooldown - Find.TickManager.TicksGame) / GenDate.TicksPerDay * 10)) / 10 + " more days", active: false);
-                    GUI.color = Color.white;
-                }
-                else
-                {
-                    Rect assignButton = new(tabRect.xMin + 0f + (tabRect.width - 250f) / 2, tabRect.yMin + 148f, 250f, 35f);
-                    if (Widgets.ButtonText(assignButton, "Reassign an Overseer"))
+                    List<Pawn> potentialOverseers = attachedPawns.Keys.ToList().Where((Pawn x) => canBecomeOverseer(x)).ToList();
+                    List<FloatMenuOption> options = new List<FloatMenuOption>();
+                    foreach (Pawn selectOverseer in potentialOverseers)
                     {
-                        List<Pawn> potentialOverseers = attachedPawns.Keys.ToList().Where((Pawn x) => canBecomeOverseer(x)).ToList();
-                        List<FloatMenuOption> options = new List<FloatMenuOption>();
-                        foreach (Pawn selectOverseer in potentialOverseers)
+                        options.Add(new FloatMenuOption(selectOverseer.Name.ToStringFull.CapitalizeFirst(), delegate
                         {
-                            options.Add(new FloatMenuOption(selectOverseer.Name.ToStringFull.CapitalizeFirst(), delegate
-                            {
-                                reassignOverseer(selectOverseer);
-                            }));
+                            reassignOverseer(selectOverseer);
+                        }));
+                    }
+                    Find.WindowStack.Add(new FloatMenu(options));
+                }
+            }
+
+
+            Rect abilityRect = new(tabRect.xMin, tabRect.yMin + 193f, tabRect.width, tabRect.height - 203f);
+            drawOverseerAbilities(abilityRect, pawn);
+        }
+
+        public virtual void drawOverseerAbilities(Rect tabRect, Pawn pawn)
+        {
+            for (int abilityY = 0; abilityY < 2; abilityY++)
+            {
+
+                for (int abilityX = 0; abilityX < 2; abilityX++)
+                {
+                    Rect backgroundRect = new(tabRect.xMin + abilityX * 79f + (tabRect.width - 148f) / 2, tabRect.yMin + abilityY * 79f + (tabRect.height - 148f) / 2 + 10f, 69f, 69f);
+                    GUI.DrawTexture(backgroundRect, ContentFinder<Texture2D>.Get("UI/Icons/UI_Background"));
+                    if (overseerCasts.Count() > abilityY * 2 + abilityX)
+                    {
+                        AbilityDef abilityDef = overseerCasts.Keys.ToList()[abilityY * 2 + abilityX];
+                        Rect abilityRect = new(tabRect.xMin + 2f + abilityX * 80.5f + (tabRect.width - 148f) / 2, tabRect.yMin + 2f + abilityY * 80.5f + (tabRect.height - 148f) / 2 + 10f, 64f, 64f);
+                        GUI.DrawTexture(abilityRect, ContentFinder<Texture2D>.Get(abilityDef.iconPath));
+
+                        string canUse = canUseAbility(abilityDef);
+                        if (canUse != null)
+                        {
+                            GUI.DrawTexture(backgroundRect, ContentFinder<Texture2D>.Get("UI/Icons/UI_Lock"));
+                            TooltipHandler.TipRegion(backgroundRect, canUse);
                         }
-                        Find.WindowStack.Add(new FloatMenu(options));
                     }
                 }
             }
+        }
+
+        public virtual string canUseAbility(AbilityDef abilityDef)
+        {
+            if (overseerCasts[abilityDef] <= attachedPawns.Count)
+            {
+                return null;
+            }
+
+            return "Locked: Not enough hivemind members (" + attachedPawns.Count + "/" + overseerCasts[abilityDef] + ")";
         }
 
         public virtual bool canBecomeOverseer(Pawn pawn)
@@ -230,21 +323,39 @@ namespace Advanced_Genes
 
         public virtual void reassignOverseer(Pawn pawn)
         {
+            currentOverseer.health.RemoveHediff(currentOverseer.health.hediffSet.GetFirstHediffOfDef(overseerHediffDef));
             currentOverseer = pawn;
+            currentOverseer.health.AddHediff(overseerHediffDef);
+            Hediff_Overseer hediffOverseer = currentOverseer.health.hediffSet.GetFirstHediffOfDef(overseerHediffDef) as Hediff_Overseer;
+            hediffOverseer.connectedHivemind = this;
+            hediffOverseer.recalculateAbilities();
             overseerAssignmentTickCooldown = Find.TickManager.TicksGame + overseerAssignmentCooldown;
         }
 
         public virtual void selectNewOverseer(Pawn pawn)
         {
             currentOverseer = pawn;
+            currentOverseer.health.AddHediff(overseerHediffDef);
+            Hediff_Overseer hediffOverseer = currentOverseer.health.hediffSet.GetFirstHediffOfDef(overseerHediffDef) as Hediff_Overseer;
+            hediffOverseer.connectedHivemind = this;
+            hediffOverseer.recalculateAbilities();
             overseerAssignmentTickCooldown = Find.TickManager.TicksGame + overseerAssignmentCooldown;
         }
-
-        public virtual void overseerDeath(Hediff_Overseer overseerHediff)
+        public virtual void removeOverseer()
         {
-            currentOverseer.health.RemoveHediff(overseerHediff);
+            if (currentOverseer == null)
+            {
+                return;
+            }
+
+            currentOverseer.health.RemoveHediff(currentOverseer.health.hediffSet.GetFirstHediffOfDef(overseerHediffDef));
             currentOverseer = null;
             overseerAssignmentTickCooldown = Find.TickManager.TicksGame + overseerDeathCooldown;
+        }
+
+        public virtual void overseerDeath()
+        {
+            removeOverseer();
         }
 
         public virtual void renderPawnMenu(Rect tabRect, Pawn pawn)

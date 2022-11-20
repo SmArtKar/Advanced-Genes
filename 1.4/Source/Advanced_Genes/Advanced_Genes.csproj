@@ -68,9 +68,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AG_DefOf.cs" />
+    <Compile Include="Comps\CompAbilityEffect_LaunchSoulblast.cs" />
+    <Compile Include="Comps\CompProperties_AbilityLaunchSoulblast.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Hediffs\Hediff_InfusedUnstableDNA.cs" />
     <Compile Include="Hiveminds\DeathGuidance\Hediff_HivemindDeathGuidance.cs" />
+    <Compile Include="Hiveminds\DeathGuidance\Hediff_OverseerDeathGuidance.cs" />
     <Compile Include="Hiveminds\DeathGuidance\Hivemind_DeathGuidance.cs" />
+    <Compile Include="Hiveminds\DeathGuidance\Soulblast.cs" />
     <Compile Include="Hiveminds\Dialog_CreateHivemind.cs" />
     <Compile Include="Hiveminds\GameComponent_Hiveminds.cs" />
     <Compile Include="Hiveminds\Hediff_Hivemind.cs" />
